@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Produto</title>
+</head>
+<body>
+    <h1>Cadastrar Novo Produto</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Exibe os campos do formulário automaticamente -->
+        <button type="submit">Cadastrar Produto</button>
+    </form>
+
+    <br>
+    <a href="{% url 'home' %}">Voltar à Página Inicial</a>
+</body>
+</html>

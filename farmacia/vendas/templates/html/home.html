@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmácia</title>
+</head>
+
+<body>
+  <h1>Bem-vindo à Farmácia</h1>
+  <nav>
+    <ul>
+      <!-- Exibir mensagens de sucesso ou erro -->
+      {% if messages %}
+      <div>
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <li><a href="{% url 'cadastrar_produto' %}">Cadastrar Produto</a></li>
+      <li><a href="{% url 'realizar_venda' %}">Realizar Venda</a></li>
+      <li><a href="{% url 'relatorio_vendas' %}">Relatórios de Vendas</a></li> <!-- Você pode criar a funcionalidade de relatórios depois -->
+    </ul>
+  </nav>
+</body>
+
+</html>
