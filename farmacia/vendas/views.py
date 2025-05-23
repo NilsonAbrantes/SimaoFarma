@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.contrib import messages
 from datetime import datetime
 from django.db.models import Sum, F
+import json 
 
 # Página inicial
 def home(request):
@@ -24,30 +25,49 @@ def cadastrar_produto(request):
         form = ProdutoForm()
     return render(request, 'html/produtos/cadastrar_produto.html', {'form': form})
 
-# Realizar venda
 def realizar_venda(request):
     if request.method == "POST":
-        form = VendaForm(request.POST)
-        if form.is_valid():
-            venda = form.save(commit=False)  # Não salva ainda, para associar o produto
+        carrinho = request.POST.get('carrinho')  # Obtendo o carrinho enviado via AJAX
+        if not carrinho:
+            messages.error(request, "O carrinho está vazio.")
+            return redirect('realizar_venda')
+        
+        try:
+            # Convertendo o carrinho JSON em uma lista de produtos e quantidades
+            carrinho = json.loads(carrinho)
+        except ValueError:
+            messages.error(request, "Erro ao processar o carrinho.")
+            return redirect('realizar_venda')
 
-            # Atribuindo o produto selecionado ou pesquisado
-            produto = form.cleaned_data.get('produto')  # Produto do campo ModelChoice ou do campo pesquisa_produto
-            if not produto:
-                messages.error(request, "Produto não selecionado ou encontrado.")
+        # Processar cada item do carrinho
+        for item in carrinho:
+            produto_id = item.get('produtoId')
+            quantidade = item.get('quantidade')
+
+            try:
+                produto = Produto.objects.get(id=produto_id)
+            except Produto.DoesNotExist:
+                messages.error(request, f"Produto com ID {produto_id} não encontrado.")
                 return redirect('realizar_venda')
 
-            venda.produto = produto  # Associa o produto encontrado à venda
+            if produto.estoque < quantidade:
+                messages.error(request, f"Estoque insuficiente para o produto {produto.nome}.")
+                return redirect('realizar_venda')
 
-            # Salvar a venda
+            # Criação da venda para cada item no carrinho
+            venda = Venda(produto=produto, quantidade=quantidade)
             venda.save()
 
-            messages.success(request, f"Venda realizada com sucesso!")
-            return redirect('home')
-        else:
-            messages.error(request, "Erro ao realizar a venda: " + str(form.errors))
+            # Atualizando o estoque do produto
+            produto.estoque -= quantidade
+            produto.save()
+
+        messages.success(request, "Venda realizada com sucesso!")
+        return redirect('home')  # Redirecionar para a página inicial
+
     else:
         form = VendaForm()
+
     return render(request, 'html/vendas/realizar_venda.html', {'form': form})
 
 # Buscar produto por ID ou código de barras

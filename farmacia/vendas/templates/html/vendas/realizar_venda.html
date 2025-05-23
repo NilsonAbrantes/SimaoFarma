@@ -4,27 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Realizar Venda</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <h1>Realizar Venda</h1>
 
-    <!-- Exibir mensagens de sucesso ou erro -->
-    {% if messages %}
-        <div>
-            {% for message in messages %}
-                <p>{{ message }}</p>
-            {% endfor %}
-        </div>
-    {% endif %}
-
     <h3>Adicionar Produto ao Carrinho:</h3>
-    <form method="post">
+    <form id="form-adicionar-produto" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Adicionar ao Carrinho</button>
     </form>
 
-    <br><br>
-    
+    <h3>Itens no Carrinho:</h3>
+    <div id="carrinho">
+        <!-- O conteúdo do carrinho será gerado aqui pelo JavaScript -->
+    </div>
+
+    <br>
+
+    <button id="finalizar-venda">Finalizar Venda</button>
+
+    <script>
+        let carrinho = [];
+
+        // Função para adicionar produto ao carrinho
+        $('#form-adicionar-produto').submit(function(event) {
+            event.preventDefault(); // Evita o envio do formulário
+
+            // Obtém os dados do formulário (produto e quantidade)
+            let produtoId = $('#id_produto').val();
+            let produtoNome = $('#id_produto option:selected').text(); // Nome do produto
+            let quantidade = parseInt($('#id_quantidade').val());
+
+            // Verificar se o produto já está no carrinho
+            let produtoExistente = carrinho.find(item => item.produtoId === produtoId);
+            if (produtoExistente) {
+                produtoExistente.quantidade += quantidade; // Atualizar quantidade
+            } else {
+                carrinho.push({ produtoId: produtoId, produtoNome: produtoNome, quantidade: quantidade }); // Adicionar novo produto
+            }
+
+            renderizarCarrinho();
+            $(this).trigger("reset"); // Limpar formulário
+        });
+
+        // Função para renderizar o carrinho
+        function renderizarCarrinho() {
+            $('#carrinho').html(''); // Limpar carrinho
+
+            if (carrinho.length === 0) {
+                $('#carrinho').append('<p>Seu carrinho está vazio.</p>');
+                return;
+            }
+
+            carrinho.forEach((item, index) => {
+                $('#carrinho').append(`
+                    <div id="item-${index}" class="item-carrinho">
+                        <p>Produto: ${item.produtoNome} - Quantidade: ${item.quantidade}</p>
+                        <button class="remover" data-index="${index}">Remover</button>
+                    </div>
+                `);
+            });
+
+            // Adicionar evento de remover produto
+            $('.remover').click(function() {
+                let index = $(this).data('index');
+                carrinho.splice(index, 1); // Remover produto
+                renderizarCarrinho();
+            });
+        }
+
+        // Função para finalizar a venda e enviar o carrinho para o servidor
+        $('#finalizar-venda').click(function() {
+            if (carrinho.length === 0) {
+                alert('O carrinho está vazio. Adicione produtos antes de finalizar a venda.');
+                return;
+            }
+
+            // Enviar dados do carrinho para o servidor
+            $.ajax({
+                url: '{% url "realizar_venda" %}',  // Use o nome da sua URL
+                type: 'POST',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    carrinho: JSON.stringify(carrinho),
+                },
+                success: function(response) {
+                    alert('Venda Finalizada!');
+                    window.location.href = "{% url 'home' %}"; // Redirecionar após a finalização
+                },
+                error: function(xhr, status, error) {
+                    alert('Erro ao finalizar a venda');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
