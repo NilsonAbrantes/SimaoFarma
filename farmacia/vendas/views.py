@@ -72,14 +72,20 @@ def realizar_venda(request):
 
 # Buscar produto por ID ou código de barras
 def buscar_produto(request):
-    produto_id = request.GET.get('produto_id')
-    if produto_id:
+    if request.method == "POST":
+        pesquisa_produto = request.POST.get('pesquisa_produto')
         try:
-            produto = Produto.objects.get(id=produto_id)
-            return JsonResponse({'nome': produto.nome, 'preco': str(produto.preco)})
+            # Tente buscar pelo código de barras primeiro
+            produto = Produto.objects.get(codigo_barras=pesquisa_produto)
         except Produto.DoesNotExist:
-            return JsonResponse({'error': 'Produto não encontrado'}, status=404)
-    return JsonResponse({'error': 'ID ou código de barras não fornecido'}, status=400)
+            try:
+                # Se não encontrar pelo código de barras, tente pelo ID
+                produto = Produto.objects.get(id=pesquisa_produto)
+            except Produto.DoesNotExist:
+                return JsonResponse({'produto': None})
+
+        # Retorne o produto encontrado em formato JSON
+        return JsonResponse({'produto': {'id': produto.id, 'nome': produto.nome}})
 
 def relatorio_vendas(request):
     # Filtragem de vendas por período (se houver)

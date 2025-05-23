@@ -12,7 +12,20 @@
     <h3>Adicionar Produto ao Carrinho:</h3>
     <form id="form-adicionar-produto" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        
+        <!-- Seletor de Produto (Produto pré-definido com ModelChoiceField) -->
+        <label for="id_produto">Produto:</label>
+        {{ form.produto }}
+
+        <label for="id_quantidade">Quantidade:</label>
+        <input type="number" id="id_quantidade" name="quantidade" value="1" min="1" required>
+
+        <br><br>
+
+        <!-- Buscar Produto por ID ou Código de Barras -->
+        <label for="pesquisa_produto">Buscar Produto por ID ou Código de Barras:</label>
+        <input type="text" id="pesquisa_produto" name="pesquisa_produto">
+        
         <button type="submit">Adicionar ao Carrinho</button>
     </form>
 
@@ -32,11 +45,49 @@
         $('#form-adicionar-produto').submit(function(event) {
             event.preventDefault(); // Evita o envio do formulário
 
-            // Obtém os dados do formulário (produto e quantidade)
+            // Obtém o valor do produto selecionado no seletor de produtos
             let produtoId = $('#id_produto').val();
-            let produtoNome = $('#id_produto option:selected').text(); // Nome do produto
+            let produtoNome = $('#id_produto option:selected').text(); // Nome do produto selecionado
             let quantidade = parseInt($('#id_quantidade').val());
 
+            // Se o campo de pesquisa de código de barras ou ID não estiver vazio
+            let pesquisa_produto = $('#pesquisa_produto').val();
+            if (pesquisa_produto) {
+                // Enviar a pesquisa para o servidor via AJAX para buscar o produto
+                $.ajax({
+                    url: '{% url "buscar_produto" %}',  // Endpoint para buscar produto por código ou ID
+                    type: 'POST',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        pesquisa_produto: pesquisa_produto
+                    },
+                    success: function(response) {
+                        if (response.produto) {
+                            produtoId = response.produto.id;
+                            produtoNome = response.produto.nome;
+                            
+                            // Adicionar ao carrinho ou atualizar quantidade
+                            adicionarAoCarrinho(produtoId, produtoNome, quantidade);
+                            // Limpar o campo de pesquisa de produto
+                            $('#pesquisa_produto').val(''); // Limpa o campo de texto de pesquisa
+                        } else {
+                            alert("Produto não encontrado.");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Erro ao buscar produto.');
+                    }
+                });
+            } else if (produtoId) {
+                // Se o produto foi selecionado no seletor de produtos
+                adicionarAoCarrinho(produtoId, produtoNome, quantidade);
+            } else {
+                alert('Selecione um produto ou insira um código de barras.');
+            }
+        });
+
+        // Função para adicionar ou atualizar produto no carrinho
+        function adicionarAoCarrinho(produtoId, produtoNome, quantidade) {
             // Verificar se o produto já está no carrinho
             let produtoExistente = carrinho.find(item => item.produtoId === produtoId);
             if (produtoExistente) {
@@ -46,8 +97,7 @@
             }
 
             renderizarCarrinho();
-            $(this).trigger("reset"); // Limpar formulário
-        });
+        }
 
         // Função para renderizar o carrinho
         function renderizarCarrinho() {
@@ -75,7 +125,7 @@
             });
         }
 
-        // Função para finalizar a venda e enviar o carrinho para o servidor
+        // Função para finalizar a venda
         $('#finalizar-venda').click(function() {
             if (carrinho.length === 0) {
                 alert('O carrinho está vazio. Adicione produtos antes de finalizar a venda.');
@@ -100,5 +150,7 @@
             });
         });
     </script>
+    <br>
+    <a href="{% url 'home' %}">Voltar à Página Inicial</a>
 </body>
 </html>
