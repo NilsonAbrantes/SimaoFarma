@@ -1,156 +1,273 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Realizar Venda</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realizar Venda</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+
+    /* Alinhamento dos campos de texto */
+    input,
+    select {
+      padding: 10px;
+      font-size: 1em;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #0a9c74;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #333;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .messages {
+      margin-bottom: 20px;
+      color: #f44336;
+    }
+
+    .back-button {
+      background-color: #0a9c74;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .back-button:hover {
+      background-color: #333;
+    }
+
+    /* Botões lado a lado */
+    .nav-buttons a {
+      text-decoration: none;
+    }
+
+    .item-carrinho {
+    display: flex; /* Utiliza flexbox para alinhar os itens na mesma linha */
+    justify-content: space-between; /* Garante que o conteúdo fique alinhado de forma espaçada */
+    align-items: center; /* Alinha os itens verticalmente */
+    gap: 10px; /* Espaçamento entre os itens */
+    margin-bottom: 10px; /* Espaçamento entre os itens do carrinho */
+    }
+
+    .item-carrinho p {
+        margin: 0; /* Remove a margem da descrição do produto */
+    }
+
+    .item-carrinho button {
+        background-color: #0a9c74;
+        color: white;
+        padding: 5px 15px;
+        font-size: 1em;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .item-carrinho button:hover {
+        background-color: #333;
+    }
+
+
+  </style>
 </head>
+
 <body>
+  <div class="container">
     <h1>Realizar Venda</h1>
 
     <h3>Adicionar Produto ao Carrinho:</h3>
     <form id="form-adicionar-produto" method="post">
-        {% csrf_token %}
-        
-        <!-- Seletor de Produto (Produto pré-definido com ModelChoiceField) -->
-        <label for="id_produto">Produto:</label>
-        {{ form.produto }}
-
-        <label for="id_quantidade">Quantidade:</label>
-        <input type="number" id="id_quantidade" name="quantidade" value="1" min="1" required>
-
-        <br><br>
-
-        <!-- Buscar Produto por ID ou Código de Barras -->
-        <label for="pesquisa_produto">Buscar Produto por ID ou Código de Barras:</label>
-        <input type="text" id="pesquisa_produto" name="pesquisa_produto">
-        
-        <button type="submit">Adicionar ao Carrinho</button>
+      {% csrf_token %}
+      <!-- Buscar Produto por ID ou Código de Barras -->
+      <label for="pesquisa_produto">Buscar Produto por ID ou Código de Barras:</label>
+      <input type="text" id="pesquisa_produto" name="pesquisa_produto">
+      <label for="id_quantidade">Quantidade:</label>
+      <input type="number" id="id_quantidade" name="quantidade" value="1" min="1" required>
+      <button type="submit">Adicionar ao Carrinho</button>
     </form>
 
     <h3>Itens no Carrinho:</h3>
     <div id="carrinho">
-        <!-- O conteúdo do carrinho será gerado aqui pelo JavaScript -->
+      <!-- O conteúdo do carrinho será gerado aqui pelo JavaScript -->
     </div>
 
     <br>
 
-    <button id="finalizar-venda">Finalizar Venda</button>
+    <h3>Total: R$ <span id="valor-total">0,00</span></h3>
 
-    <script>
-        let carrinho = [];
+    <!-- Botões lado a lado -->
+    <div class="nav-buttons">
+      <a href="{% url 'home' %}" class="back-button">Voltar à Página Inicial</a>
+      <button id="finalizar-venda">Finalizar Venda</button>
+    </div>
+  </div>
 
-        // Função para adicionar produto ao carrinho
-        $('#form-adicionar-produto').submit(function(event) {
-            event.preventDefault(); // Evita o envio do formulário
+  <script>
+    let carrinho = [];
 
-            // Obtém o valor do produto selecionado no seletor de produtos
-            let produtoId = $('#id_produto').val();
-            let produtoNome = $('#id_produto option:selected').text(); // Nome do produto selecionado
-            let quantidade = parseInt($('#id_quantidade').val());
+    // Função para adicionar produto ao carrinho
+    $('#form-adicionar-produto').submit(function (event) {
+      event.preventDefault(); // Evita o envio do formulário
 
-            // Se o campo de pesquisa de código de barras ou ID não estiver vazio
-            let pesquisa_produto = $('#pesquisa_produto').val();
-            if (pesquisa_produto) {
-                // Enviar a pesquisa para o servidor via AJAX para buscar o produto
-                $.ajax({
-                    url: '{% url "buscar_produto" %}',  // Endpoint para buscar produto por código ou ID
-                    type: 'POST',
-                    data: {
-                        csrfmiddlewaretoken: '{{ csrf_token }}',
-                        pesquisa_produto: pesquisa_produto
-                    },
-                    success: function(response) {
-                        if (response.produto) {
-                            produtoId = response.produto.id;
-                            produtoNome = response.produto.nome;
-                            
-                            // Adicionar ao carrinho ou atualizar quantidade
-                            adicionarAoCarrinho(produtoId, produtoNome, quantidade);
-                            // Limpar o campo de pesquisa de produto
-                            $('#pesquisa_produto').val(''); // Limpa o campo de texto de pesquisa
-                        } else {
-                            alert("Produto não encontrado.");
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Erro ao buscar produto.');
-                    }
-                });
-            } else if (produtoId) {
-                // Se o produto foi selecionado no seletor de produtos
-                adicionarAoCarrinho(produtoId, produtoNome, quantidade);
+      let produtoId = $('#id_produto').val();
+      let produtoNome = $('#id_produto option:selected').text(); // Nome do produto selecionado
+      let quantidade = parseInt($('#id_quantidade').val());
+
+      let pesquisa_produto = $('#pesquisa_produto').val();
+      if (pesquisa_produto) {
+        $.ajax({
+          url: '{% url "buscar_produto" %}', 
+          type: 'POST',
+          data: {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            pesquisa_produto: pesquisa_produto
+          },
+          success: function (response) {
+            if (response.produto) {
+              produtoId = response.produto.id;
+              produtoNome = response.produto.nome;
+              let produtoPreco = parseFloat(response.produto.preco);
+
+              adicionarAoCarrinho(produtoId, produtoNome, produtoPreco, quantidade);
+              $('#pesquisa_produto').val('');
             } else {
-                alert('Selecione um produto ou insira um código de barras.');
+              alert("Produto não encontrado.");
             }
+          },
+          error: function () {
+            alert('Erro ao buscar produto.');
+          }
         });
+      } else if (produtoId) {
+        let produtoPreco = parseFloat($('#id_produto option:selected').data('preco'));
+        adicionarAoCarrinho(produtoId, produtoNome, produtoPreco, quantidade);
+      } else {
+        alert('Selecione um produto ou insira um código de barras.');
+      }
+    });
 
-        // Função para adicionar ou atualizar produto no carrinho
-        function adicionarAoCarrinho(produtoId, produtoNome, quantidade) {
-            // Verificar se o produto já está no carrinho
-            let produtoExistente = carrinho.find(item => item.produtoId === produtoId);
-            if (produtoExistente) {
-                produtoExistente.quantidade += quantidade; // Atualizar quantidade
-            } else {
-                carrinho.push({ produtoId: produtoId, produtoNome: produtoNome, quantidade: quantidade }); // Adicionar novo produto
-            }
+    // Função para adicionar ou atualizar produto no carrinho
+    function adicionarAoCarrinho(produtoId, produtoNome, produtoPreco, quantidade) {
+      let produtoExistente = carrinho.find(item => item.produtoId === produtoId);
+      if (produtoExistente) {
+        produtoExistente.quantidade += quantidade;
+      } else {
+        carrinho.push({ produtoId: produtoId, produtoNome: produtoNome, preco: produtoPreco, quantidade: quantidade });
+      }
 
-            renderizarCarrinho();
-        }
+      renderizarCarrinho();
+    }
 
-        // Função para renderizar o carrinho
-        function renderizarCarrinho() {
-            $('#carrinho').html(''); // Limpar carrinho
+    // Função para renderizar o carrinho
+    function renderizarCarrinho() {
+      $('#carrinho').html('');
+      let valorTotal = 0;
 
-            if (carrinho.length === 0) {
-                $('#carrinho').append('<p>Seu carrinho está vazio.</p>');
-                return;
-            }
+      if (carrinho.length === 0) {
+        $('#carrinho').append('<p>Seu carrinho está vazio.</p>');
+      } else {
+        carrinho.forEach((item, index) => {
+          valorTotal += item.preco * item.quantidade;
 
-            carrinho.forEach((item, index) => {
-                $('#carrinho').append(`
-                    <div id="item-${index}" class="item-carrinho">
-                        <p>Produto: ${item.produtoNome} - Quantidade: ${item.quantidade}</p>
-                        <button class="remover" data-index="${index}">Remover</button>
-                    </div>
-                `);
-            });
-
-            // Adicionar evento de remover produto
-            $('.remover').click(function() {
-                let index = $(this).data('index');
-                carrinho.splice(index, 1); // Remover produto
-                renderizarCarrinho();
-            });
-        }
-
-        // Função para finalizar a venda
-        $('#finalizar-venda').click(function() {
-            if (carrinho.length === 0) {
-                alert('O carrinho está vazio. Adicione produtos antes de finalizar a venda.');
-                return;
-            }
-
-            // Enviar dados do carrinho para o servidor
-            $.ajax({
-                url: '{% url "realizar_venda" %}',  // Use o nome da sua URL
-                type: 'POST',
-                data: {
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                    carrinho: JSON.stringify(carrinho),
-                },
-                success: function(response) {
-                    alert('Venda Finalizada!');
-                    window.location.href = "{% url 'home' %}"; // Redirecionar após a finalização
-                },
-                error: function(xhr, status, error) {
-                    alert('Erro ao finalizar a venda');
-                }
-            });
+          $('#carrinho').append(`
+            <div id="item-${index}" class="item-carrinho">
+              <p>${item.produtoNome} - Qtd: ${item.quantidade} - R$ ${item.preco.toFixed(2)}</p>
+              <button class="remover" data-index="${index}">Remover</button>
+            </div>
+          `);
         });
-    </script>
-    <br>
-    <a href="{% url 'home' %}">Voltar à Página Inicial</a>
+      }
+
+      $('#valor-total').text(valorTotal.toFixed(2));
+
+      $('.remover').click(function () {
+        let index = $(this).data('index');
+        carrinho.splice(index, 1);
+        renderizarCarrinho();
+      });
+    }
+
+    // Função para finalizar a venda
+    $('#finalizar-venda').click(function () {
+      if (carrinho.length === 0) {
+        alert('O carrinho está vazio. Adicione produtos antes de finalizar a venda.');
+        return;
+      }
+
+      $.ajax({
+        url: '{% url "realizar_venda" %}',
+        type: 'POST',
+        data: {
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          carrinho: JSON.stringify(carrinho),
+        },
+        success: function () {
+          alert('Venda Finalizada!');
+          window.location.href = "{% url 'home' %}";
+        },
+        error: function () {
+          alert('Erro ao finalizar a venda');
+        }
+      });
+    });
+  </script>
 </body>
+
 </html>

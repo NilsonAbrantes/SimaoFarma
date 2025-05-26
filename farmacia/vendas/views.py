@@ -58,10 +58,6 @@ def realizar_venda(request):
             venda = Venda(produto=produto, quantidade=quantidade)
             venda.save()
 
-            # Atualizando o estoque do produto
-            produto.estoque -= quantidade
-            produto.save()
-
         messages.success(request, "Venda realizada com sucesso!")
         return redirect('home')  # Redirecionar para a página inicial
 
@@ -84,8 +80,9 @@ def buscar_produto(request):
             except Produto.DoesNotExist:
                 return JsonResponse({'produto': None})
 
-        # Retorne o produto encontrado em formato JSON
-        return JsonResponse({'produto': {'id': produto.id, 'nome': produto.nome}})
+        # Retorne o produto encontrado em formato JSON, incluindo o preço
+        return JsonResponse({'produto': {'id': produto.id, 'nome': produto.nome, 'preco': produto.preco}})
+
 
 def relatorio_vendas(request):
     # Filtragem de vendas por período (se houver)
