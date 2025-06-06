@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Produto, Venda
-from .forms import ProdutoForm, VendaForm
+from .forms import ProdutoForm, VendaForm, AtualizarEstoqueForm
 from django.http import JsonResponse
 from django.contrib import messages
 from datetime import datetime
@@ -72,6 +72,13 @@ def realizar_venda(request):
 def buscar_produto(request):
     if request.method == "POST":
         pesquisa_produto = request.POST.get('pesquisa_produto')
+
+        if not pesquisa_produto:
+            return JsonResponse({'produto': None})
+
+        # Limpar espaços extras
+        pesquisa_produto = pesquisa_produto.strip()
+
         try:
             # Tente buscar pelo código de barras primeiro
             produto = Produto.objects.get(codigo_barras=pesquisa_produto)
@@ -82,8 +89,15 @@ def buscar_produto(request):
             except Produto.DoesNotExist:
                 return JsonResponse({'produto': None})
 
-        # Retorne o produto encontrado em formato JSON, incluindo o preço
-        return JsonResponse({'produto': {'id': produto.id, 'nome': produto.nome, 'preco': produto.preco}})
+        # Retorne o produto encontrado em formato JSON
+        return JsonResponse({
+            'produto': {
+                'id': produto.id,
+                'nome': produto.nome,
+                'estoque': produto.estoque,
+                'preco': produto.preco
+            }
+        })
 
 
 def relatorio_vendas(request):
@@ -125,6 +139,9 @@ def atualizar_estoque(request):
             messages.error(request, "Digite o código de barras ou ID do produto.")
             return redirect('atualizar_estoque')
 
+        # Limpar espaços extras
+        pesquisa_produto = pesquisa_produto.strip()
+
         try:
             # Tente buscar pelo código de barras primeiro
             produto = Produto.objects.get(codigo_barras=pesquisa_produto)
@@ -133,18 +150,18 @@ def atualizar_estoque(request):
                 # Se não encontrar pelo código de barras, tente pelo ID
                 produto = Produto.objects.get(id=pesquisa_produto)
             except Produto.DoesNotExist:
-                messages.error(request, "Produto não encontrado.")
+                messages.error(request, f"Produto não encontrado para o código de barras ou ID: {pesquisa_produto}")
                 return redirect('atualizar_estoque')
 
-        # Se o produto for encontrado e a quantidade for válida
-        if produto:
-            if novo_estoque is not None and novo_estoque.isdigit():
-                produto.estoque = int(novo_estoque)
-                produto.save()
-                messages.success(request, f"Estoque do produto {produto.nome} atualizado com sucesso!")
-                return redirect('home')
-            else:
-                messages.error(request, "Informe um valor válido para o estoque.")
-                return redirect('atualizar_estoque')
+        # Verifica se o novo estoque é válido
+        if novo_estoque and novo_estoque.isdigit() and int(novo_estoque) >= 1:
+            produto.estoque = int(novo_estoque)
+            produto.save()
+            messages.success(request, f"Estoque do produto {produto.nome} atualizado com sucesso!")
+            return JsonResponse({'status': 'success'})  # Resposta JSON indicando sucesso
+        
+        else:
+            messages.error(request, "Informe um valor válido para o estoque.")
+            return JsonResponse({'status': 'error', 'message': 'Valor inválido para o estoque.'})  # Resposta JSON de erro
 
     return render(request, 'html/produtos/atualizar_estoque.html', {'produto': produto})

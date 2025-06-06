@@ -50,3 +50,31 @@ class VendaForm(forms.ModelForm):
             raise forms.ValidationError("Você deve fornecer um produto, seja por pesquisa ou seleção.")
 
         return cleaned_data
+    
+class AtualizarEstoqueForm(forms.Form):
+    codigo_produto = forms.CharField(max_length=100, label="ID ou Código de Barras")
+    novo_estoque = forms.IntegerField(min_value=1, label="Novo Estoque", required=False)
+
+    def buscar_produto(self):
+        codigo_produto = self.cleaned_data.get('codigo_produto')
+        try:
+            # Tente buscar pelo código de barras primeiro
+            produto = Produto.objects.get(codigo_barras=codigo_produto)
+        except Produto.DoesNotExist:
+            try:
+                # Se não encontrar pelo código de barras, tente pelo ID
+                produto = Produto.objects.get(id=codigo_produto)
+            except Produto.DoesNotExist:
+                raise forms.ValidationError("Produto não encontrado.")
+        
+        return produto
+
+    def atualizar_estoque(self):
+        produto = self.buscar_produto()
+        novo_estoque = self.cleaned_data.get('novo_estoque')
+
+        if novo_estoque:
+            produto.estoque = novo_estoque
+            produto.save()
+
+        return produto
