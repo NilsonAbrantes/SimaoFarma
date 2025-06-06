@@ -6,6 +6,8 @@ from django.contrib import messages
 from datetime import datetime
 from django.db.models import Sum, F
 import json 
+from django.views.decorators.csrf import csrf_exempt
+from django import forms
 
 # Página inicial
 def home(request):
@@ -111,3 +113,38 @@ def relatorio_vendas(request):
         'inicio': inicio,
         'fim': fim,
     })
+
+# Atualizar estoque de produto
+def atualizar_estoque(request):
+    produto = None
+    if request.method == "POST":
+        pesquisa_produto = request.POST.get('pesquisa_produto')
+        novo_estoque = request.POST.get('novo_estoque')
+
+        if not pesquisa_produto:
+            messages.error(request, "Digite o código de barras ou ID do produto.")
+            return redirect('atualizar_estoque')
+
+        try:
+            # Tente buscar pelo código de barras primeiro
+            produto = Produto.objects.get(codigo_barras=pesquisa_produto)
+        except Produto.DoesNotExist:
+            try:
+                # Se não encontrar pelo código de barras, tente pelo ID
+                produto = Produto.objects.get(id=pesquisa_produto)
+            except Produto.DoesNotExist:
+                messages.error(request, "Produto não encontrado.")
+                return redirect('atualizar_estoque')
+
+        # Se o produto for encontrado e a quantidade for válida
+        if produto:
+            if novo_estoque is not None and novo_estoque.isdigit():
+                produto.estoque = int(novo_estoque)
+                produto.save()
+                messages.success(request, f"Estoque do produto {produto.nome} atualizado com sucesso!")
+                return redirect('home')
+            else:
+                messages.error(request, "Informe um valor válido para o estoque.")
+                return redirect('atualizar_estoque')
+
+    return render(request, 'html/produtos/atualizar_estoque.html', {'produto': produto})
