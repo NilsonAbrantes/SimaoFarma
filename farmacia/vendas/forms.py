@@ -54,6 +54,7 @@ class VendaForm(forms.ModelForm):
 class AtualizarEstoqueForm(forms.Form):
     codigo_produto = forms.CharField(max_length=100, label="ID ou Código de Barras")
     novo_estoque = forms.IntegerField(min_value=1, label="Novo Estoque", required=False)
+    novo_preco = forms.IntegerField(min_value=1, label="Novo Preço", required=False)
 
     def buscar_produto(self):
         codigo_produto = self.cleaned_data.get('codigo_produto')
@@ -72,9 +73,11 @@ class AtualizarEstoqueForm(forms.Form):
     def atualizar_estoque(self):
         produto = self.buscar_produto()
         novo_estoque = self.cleaned_data.get('novo_estoque')
+        novo_preco = self.cleaned_data.get('novo_preco')
 
         if novo_estoque:
             produto.estoque = novo_estoque
+            produto.preco = novo_preco
             produto.save()
 
         return produto

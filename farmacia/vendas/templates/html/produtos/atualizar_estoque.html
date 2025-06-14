@@ -98,7 +98,8 @@
       <p><strong>Preço:</strong> R$ <span id="produto-preco"></span></p>
 
       <!-- Campo para inserir novo estoque -->
-      <input type="number" id="novo-estoque" min="1">
+      <input type="number" id="novo-estoque" min="1" placeholder="Quantidade">
+      <input type="number" id="novo-preco" placeholder="Preço">
       <button id="atualizar-estoque" class="form-submit-btn" style="display:none;">Atualizar Estoque</button>
       <div id="mensagem"></div>
     </div>
@@ -106,7 +107,7 @@
 
   <script>
     // Envio do formulário de busca para consultar o produto
-    $('#form-buscar-produto').submit(function(event) {
+    $('#form-buscar-produto').submit(function (event) {
       event.preventDefault();  // Impede o envio do formulário tradicional
 
       // Limpar qualquer mensagem anterior
@@ -128,7 +129,7 @@
           csrfmiddlewaretoken: '{{ csrf_token }}',
           pesquisa_produto: codigoProduto
         },
-        success: function(response) {
+        success: function (response) {
           if (response.produto) {
             // Exibe as informações do produto
             $('#produto-nome').text(response.produto.nome);
@@ -144,20 +145,24 @@
             $('#mensagem').text("Produto não encontrado.").css('color', 'red');
           }
         },
-        error: function() {
+        error: function () {
           alert('Erro ao buscar produto.');
         }
       });
     });
 
     // Atualiza o estoque com AJAX
-    $('#atualizar-estoque').click(function() {
+    $('#atualizar-estoque').click(function () {
       var novoEstoque = $('#novo-estoque').val();
+      var novoPreco = $('#novo-preco').val();
       if (!novoEstoque || novoEstoque < 1) {
         $('#mensagem').text("Por favor, insira uma quantidade válida para o estoque.").css('color', 'red');
         return;
       }
-
+      if (!novoPreco || novoPreco < 1) {
+        $('#mensagem').text("Por favor, insira uma quantidade válida para o Preço.").css('color', 'red');
+        return;
+      }
       var codigoProduto = $('#pesquisa_produto').val();
 
       $.ajax({
@@ -166,9 +171,10 @@
         data: {
           csrfmiddlewaretoken: '{{ csrf_token }}',
           pesquisa_produto: codigoProduto,
-          novo_estoque: novoEstoque
+          novo_estoque: novoEstoque,
+          novo_preco : novoPreco
         },
-        success: function(response) {
+        success: function (response) {
           if (response.status === 'success') {
             $('#mensagem').text("Estoque atualizado com sucesso!").css('color', 'green');
             window.location.href = '{% url "home" %}';
@@ -176,7 +182,7 @@
             $('#mensagem').text(response.message).css('color', 'red');
           }
         },
-        error: function() {
+        error: function () {
           $('#mensagem').text("Erro ao comunicar com o servidor.").css('color', 'red');
         }
       });
@@ -185,4 +191,3 @@
 </body>
 
 </html>
- 

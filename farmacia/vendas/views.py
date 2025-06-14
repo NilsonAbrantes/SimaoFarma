@@ -134,6 +134,7 @@ def atualizar_estoque(request):
     if request.method == "POST":
         pesquisa_produto = request.POST.get('pesquisa_produto')
         novo_estoque = request.POST.get('novo_estoque')
+        novo_preco = request.POST.get('novo_preco')
 
         if not pesquisa_produto:
             messages.error(request, "Digite o código de barras ou ID do produto.")
@@ -154,8 +155,9 @@ def atualizar_estoque(request):
                 return redirect('atualizar_estoque')
 
         # Verifica se o novo estoque é válido
-        if novo_estoque and novo_estoque.isdigit() and int(novo_estoque) >= 1:
+        if novo_estoque and novo_estoque.isdigit() and int(novo_estoque) >= 0 and int(novo_preco) > 0:
             produto.estoque = int(novo_estoque)
+            produto.preco = int(novo_preco)
             produto.save()
             messages.success(request, f"Estoque do produto {produto.nome} atualizado com sucesso!")
             return JsonResponse({'status': 'success'})  # Resposta JSON indicando sucesso
