@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comercial Simão • Novo Cliente</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="{% static 'vendas/css/theme.css' %}">
+</head>
+<body class="app-theme client-create-page">
+  <main class="center-stage">
+    <section class="surface-card compact">
+      <div class="page-header">
+        <div class="brand-kicker"><i class="fa-solid fa-user-plus"></i> Caloteiro</div>
+        <h1>Cadastrar novo Caloteiro</h1>
+        <p>Adicione um caloteiro para começar a controlar sua conta na caderneta.</p>
+      </div>
+
+      {% if messages %}
+        <div class="messages error">
+          {% for message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <form method="post" class="stacked-form">
+        {% csrf_token %}
+
+        <div class="field-group">
+          <label for="nome">Nome do Caloteiro</label>
+          <input type="text" id="nome" name="nome" placeholder="Digite o nome do caloteiro" required>
+        </div>
+
+        <div class="button-row nav-buttons">
+          <a href="{% url 'caderneta_home' %}" class="btn btn-secondary">
+            <i class="fa-solid fa-arrow-left"></i> Voltar
+          </a>
+          <button type="submit">
+            <i class="fa-solid fa-floppy-disk"></i> Salvar Caloteiro
+          </button>
+        </div>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

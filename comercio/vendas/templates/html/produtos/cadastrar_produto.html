@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comercial Simão • Cadastrar Produto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'vendas/css/theme.css' %}">
+</head>
+<body class="app-theme">
+    <main class="center-stage">
+        <section class="surface-card compact">
+            <div class="page-header">
+                <div class="brand-kicker"><i class="fa-solid fa-plus"></i> Cadastro</div>
+                <h1>Cadastrar novo produto</h1>
+            </div>
+
+            {% if messages %}
+                <div class="messages error">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="post" class="stacked-form">
+                {% csrf_token %}
+
+                <div class="field-group">
+                    <label for="id_nome">Nome</label>
+                    {{ form.nome }}
+                </div>
+
+                <div class="field-group">
+                    <label for="id_descricao">Descrição</label>
+                    {{ form.descricao }}
+                </div>
+
+                <div class="inline-fields">
+                    <div class="field-group">
+                        <label for="id_preco">Preço</label>
+                        {{ form.preco }}
+                    </div>
+                    <div class="field-group">
+                        <label for="id_estoque">Estoque</label>
+                        {{ form.estoque }}
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label for="id_codigo_barras">Código de barras</label>
+                    {{ form.codigo_barras }}
+                </div>
+
+                <div class="button-row nav-buttons">
+                    <a href="{% url 'home' %}" class="btn-secondary"><i class="fa-solid fa-house"></i> Voltar à página inicial</a>
+                    <button type="submit"><i class="fa-solid fa-floppy-disk"></i> Salvar produto</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

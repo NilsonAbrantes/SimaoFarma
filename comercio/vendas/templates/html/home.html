@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comercial Simão</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="{% static 'vendas/css/theme.css' %}">
+</head>
+<body class="app-theme home-page">
+  <main class="center-stage">
+    <section class="surface-card">
+      <div class="brand-grid">
+        <div class="hero-content">
+          <div class="brand-kicker"><i class="fa-solid fa-store"></i> Marca da casa</div>
+
+          <!-- <h1 class="brand-title">Comercial <span>Simão</span></h1> -->
+
+          <div class="hero-side print-hide">
+            <img class="hero-logo" src="{% static 'vendas/img/comercial-simao-brand.png' %}" alt="Marca Comercial Simão">
+          </div>
+
+          {% if messages %}
+            <div class="messages">
+              {% for message in messages %}
+                <p>{{ message }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <div class="hero-actions nav-buttons">
+            <a href="{% url 'cadastrar_produto' %}"><i class="fa-solid fa-box-open"></i> Cadastrar Produto</a>
+            <a href="{% url 'realizar_venda' %}" class="btn-secondary"><i class="fa-solid fa-cart-shopping"></i> Realizar Venda</a>
+            <a href="{% url 'relatorio_vendas' %}"><i class="fa-solid fa-chart-column"></i> Relatórios de Vendas</a>
+            <a href="{% url 'listar_produtos' %}" class="btn-secondary"><i class="fa-solid fa-table-list"></i> Listar Produtos</a>
+            <a href="{% url 'caderneta_home' %}"><i class="fa-solid fa-book"></i> Caderneta</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

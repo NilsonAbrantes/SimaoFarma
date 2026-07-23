@@ -1,0 +1,225 @@
+{% load static %}
+{% load l10n %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comercial Simão • Realizar Venda</title>
+
+  <!-- jQuery + Select2 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'vendas/css/theme.css' %}">
+</head>
+
+<body class="app-theme sale-page">
+  <main class="center-stage">
+    <section class="surface-card sale-card">
+
+      <div class="page-header">
+        <div class="brand-kicker">
+          <i class="fa-solid fa-cart-shopping"></i> Venda
+        </div>
+        <h1>Realizar Venda</h1>
+        <p>Selecione produtos e gerencie o carrinho de forma rápida.</p>
+      </div>
+
+      <form id="form-adicionar-produto" class="stacked-form">
+        {% csrf_token %}
+
+        <!-- SELECT COM BUSCA -->
+        <div class="field-group">
+          <label for="produto_select">Selecionar Produto</label>
+          <select id="produto_select" style="width: 100%">
+            <option value="">Buscar produto...</option>
+            {% for produto in produtos %}
+              <option
+                value="{{ produto.id }}"
+                data-preco="{{ produto.preco|unlocalize }}"
+              >
+                {{ produto.nome }} {% if produto.codigo_barras %}({{ produto.codigo_barras }}){% endif %}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label for="cliente_id">Cliente da caderneta</label>
+          <select id="cliente_id" name="cliente_id" style="width: 100%">
+            <option value="">Venda sem caderneta</option>
+            {% for cliente in clientes %}
+              <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
+            {% endfor %}
+          </select>
+          <small class="field-help">
+            Ao selecionar um cliente, a venda será lançada como dívida na caderneta.
+          </small>
+        </div>
+
+        <div class="field-group small-field">
+          <label for="id_quantidade">Quantidade</label>
+          <input type="number" id="id_quantidade" value="1" min="1">
+        </div>
+
+        <div class="button-row nav-buttons">
+          <button type="submit">
+            <i class="fa-solid fa-cart-plus"></i> Adicionar ao Carrinho
+          </button>
+        </div>
+      </form>
+
+      <div class="sale-section">
+        <h3 class="section-title">Itens no Carrinho</h3>
+        <div id="carrinho" class="cart-box"></div>
+      </div>
+
+      <div class="sale-total">
+        <span>Total</span>
+        <strong>R$ <span id="valor-total">0,00</span></strong>
+      </div>
+
+      <div class="button-row nav-buttons sale-actions">
+        <a href="{% url 'home' %}" class="back-button btn-ghost">
+          <i class="fa-solid fa-house"></i> Voltar
+        </a>
+
+        <button id="finalizar-venda" type="button" class="btn-secondary">
+          <i class="fa-solid fa-receipt"></i> Finalizar Venda
+        </button>
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+  let carrinho = [];
+
+  $('#produto_select').select2({
+    placeholder: "Digite para buscar produto...",
+    allowClear: true
+  });
+
+  $('#cliente_id').select2({
+    placeholder: "Selecione um cliente da caderneta...",
+    allowClear: true
+  });
+
+  $('#form-adicionar-produto').submit(function (event) {
+    event.preventDefault();
+
+    let select = $('#produto_select');
+    let produtoId = select.val();
+    let produtoNome = select.find(':selected').text();
+    let produtoPreco = parseFloat(select.find(':selected').data('preco'));
+    let quantidade = parseInt($('#id_quantidade').val());
+
+    if (!produtoId) {
+      alert('Selecione um produto.');
+      return;
+    }
+
+    adicionarAoCarrinho(produtoId, produtoNome, produtoPreco, quantidade);
+
+    $('#produto_select').val(null).trigger('change');
+    $('#id_quantidade').val(1);
+  });
+
+  function adicionarAoCarrinho(produtoId, produtoNome, produtoPreco, quantidade) {
+    let existente = carrinho.find(item => item.produtoId == produtoId);
+
+    if (existente) {
+      existente.quantidade += quantidade;
+    } else {
+      carrinho.push({
+        produtoId,
+        produtoNome,
+        preco: produtoPreco,
+        quantidade
+      });
+    }
+
+    renderizarCarrinho();
+  }
+
+  function renderizarCarrinho() {
+    $('#carrinho').html('');
+    let total = 0;
+
+    if (carrinho.length === 0) {
+      $('#carrinho').append('<p class="cart-empty">Carrinho vazio</p>');
+    } else {
+      carrinho.forEach((item, index) => {
+        total += item.preco * item.quantidade;
+
+        $('#carrinho').append(`
+          <div class="item-carrinho">
+            <div class="item-carrinho-info">
+              <p><strong>${item.produtoNome}</strong></p>
+              <span>R$ ${item.preco.toFixed(2)}</span>
+            </div>
+
+            <div class="item-controls">
+              <input type="number" min="1" value="${item.quantidade}"
+                class="input-quantidade" data-index="${index}">
+
+              <button class="remover" data-index="${index}">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `);
+      });
+    }
+
+    $('#valor-total').text(total.toFixed(2));
+
+    $('.remover').click(function () {
+      let index = $(this).data('index');
+      carrinho.splice(index, 1);
+      renderizarCarrinho();
+    });
+
+    $('.input-quantidade').on('change', function () {
+      let index = $(this).data('index');
+      let valor = parseInt($(this).val());
+
+      if (!valor || valor < 1) valor = 1;
+
+      carrinho[index].quantidade = valor;
+      renderizarCarrinho();
+    });
+  }
+
+  $('#finalizar-venda').click(function () {
+    if (carrinho.length === 0) {
+      alert('Carrinho vazio.');
+      return;
+    }
+
+    $.ajax({
+      url: '{% url "realizar_venda" %}',
+      type: 'POST',
+      data: {
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        carrinho: JSON.stringify(carrinho),
+        cliente_id: $('#cliente_id').val()
+      },
+      success: function (response) {
+        alert(response.message || 'Venda finalizada!');
+        window.location.href = "{% url 'home' %}";
+      },
+      error: function (xhr) {
+        const response = xhr.responseJSON;
+        alert(response?.message || 'Erro ao finalizar venda.');
+      }
+    });
+  });
+
+  renderizarCarrinho();
+</script>
+</body>
+</html>

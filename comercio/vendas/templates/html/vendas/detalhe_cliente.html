@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comercial Simão • Conta do Cliente</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="{% static 'vendas/css/theme.css' %}">
+</head>
+<body class="app-theme client-detail-page">
+  <main class="page-wrap">
+    <section class="surface-card">
+      <div class="page-header">
+        <div class="brand-kicker"><i class="fa-solid fa-id-card"></i> Caloteiro</div>
+        <h1>{{ cliente.nome }}</h1>
+        <p>Gerencie a conta do cliente, registre dívidas e acompanhe os pagamentos realizados.</p>
+      </div>
+
+      <div class="stats-strip client-stats">
+        <div class="stat-card">
+          <h2 class="sale-section">Saldo devedor: </h2>
+          <div class="stat-value">R$ {{ caderneta.saldo_devedor|floatformat:2 }}</div>
+        </div>
+        <div class="stat-card">
+          <h2 class="stat-label">Movimentações</h2>
+          <div class="stat-value">{{ movimentacoes|length }}</div>
+        </div>
+      </div>
+
+      <div class="detail-stack">
+  <section class="content-panel form-panel">
+    <div class="section-heading">
+      <h2>Adicionar movimentação</h2>
+      <p>Lance uma nova dívida manualmente ou registre um pagamento para reduzir o saldo.</p>
+    </div>
+
+    <form method="post" class="stacked-form">
+      {% csrf_token %}
+
+      <div class="field-group">
+        <label for="tipo">Tipo de movimentação</label>
+        <select name="tipo" id="tipo">
+          <option value="divida">Dívida</option>
+          <option value="pagamento">Pagamento</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label for="valor">Valor</label>
+        <input type="number" step="0.01" min="0.01" name="valor" id="valor" placeholder="0,00" required>
+      </div>
+
+      <div class="field-group">
+        <label for="descricao">Descrição</label>
+        <input type="text" name="descricao" id="descricao" placeholder="Ex.: compra de mercadorias, pagamento parcial">
+      </div>
+
+      <div class="button-row nav-buttons panel-actions">
+        <button type="submit">
+          <i class="fa-solid fa-plus"></i> Salvar Movimentação
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <section class="content-panel history-panel">
+    <div class="section-heading">
+      <h2>Histórico da conta</h2>
+      <p>Confira todas as movimentações registradas para este cliente.</p>
+    </div>
+
+    {% if movimentacoes %}
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Tipo</th>
+              <th>Valor</th>
+              <th>Descrição</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for mov in movimentacoes %}
+              <tr>
+                <td>{{ mov.data|date:"d/m/Y H:i" }}</td>
+                <td>
+                  <span class="movement-badge {% if mov.tipo == 'divida' %}badge-debt{% else %}badge-payment{% endif %}">
+                    {{ mov.get_tipo_display }}
+                  </span>
+                </td>
+                <td>
+                  {% if mov.tipo == 'pagamento' %}-{% else %}+{% endif %}
+                  R$ {{ mov.valor|floatformat:2 }}
+                </td>
+                <td>{{ mov.descricao|default:"—" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <span class="pagination-info">
+          Página {{ movimentacoes.number }} de {{ movimentacoes.paginator.num_pages }}
+        </span>
+
+        <div class="pagination-links">
+          {% if movimentacoes.has_previous %}
+            <a href="?page=1">&laquo; Primeira</a>
+            <a href="?page={{ movimentacoes.previous_page_number }}">Anterior</a>
+          {% endif %}
+
+          {% for num in movimentacoes.paginator.page_range %}
+            {% if num == movimentacoes.number %}
+              <span class="active-page">{{ num }}</span>
+            {% elif num >= movimentacoes.number|add:'-2' and num <= movimentacoes.number|add:'2' %}
+              <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+          {% endfor %}
+
+          {% if movimentacoes.has_next %}
+            <a href="?page={{ movimentacoes.next_page_number }}">Próxima</a>
+            <a href="?page={{ movimentacoes.paginator.num_pages }}">Última &raquo;</a>
+          {% endif %}
+        </div>
+      </div>
+    {% else %}
+      <div class="empty-state compact-empty">
+        <i class="fa-solid fa-receipt"></i>
+        <h3>Sem movimentações</h3>
+        <p>As dívidas e pagamentos cadastrados aparecerão aqui.</p>
+      </div>
+    {% endif %}
+  </section>
+</div>
+
+      <br>
+      <div class="nav-buttons notebook-actions bottom-actions">
+        <a href="{% url 'caderneta_home' %}" class="btn btn-secondary">
+          <i class="fa-solid fa-arrow-left"></i> Voltar para Caderneta
+        </a>
+        <a href="{% url 'home' %}" class="btn btn-ghost">
+          <i class="fa-solid fa-house"></i> Início
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

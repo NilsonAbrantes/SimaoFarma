@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comercial Simão • Caderneta</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="{% static 'vendas/css/theme.css' %}">
+</head>
+<body class="app-theme notebook-home-page">
+  <main class="page-wrap">
+    <section class="surface-card">
+      <div class="page-header">
+        <div class="brand-kicker"><i class="fa-solid fa-book"></i> Caderneta</div>
+        <h1>Caloteiros da caderneta</h1>
+        <p>Cadastre caloteiros e acesse rapidamente a conta de cada um no comércio.</p>
+      </div>
+
+      {% if messages %}
+        <div class="messages success">
+          {% for message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="stats-strip notebook-stats">
+        <div class="stat-card">
+          <div class="stat-label">Caloteiros cadastrados: {{ clientes|length }}</div>
+        </div>
+
+
+      <div class="nav-buttons notebook-actions top-actions">
+        <br>
+        <a href="{% url 'criar_cliente' %}">
+          <i class="fa-solid fa-user-plus"></i> Novo Caloteiro
+        </a>
+        <a href="{% url 'home' %}" class="btn-ghost">
+          <i class="fa-solid fa-house"></i> Voltar ao início
+        </a>
+      </div>
+
+      <br>
+
+      {% if clientes %}
+        <div class="client-grid">
+          {% for cliente in clientes %}
+            <a href="{% url 'detalhe_cliente' cliente.id %}" class="client-card-link">
+              <article class="client-card">
+                <div class="client-card-content">
+                  <h3>{{ cliente.nome }}</h3>
+                </div>
+              </article>
+            </a>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <i class="fa-solid fa-book-open"></i>
+          <h3>Nenhum cliente cadastrado</h3>
+          <p>Crie o primeiro cliente para começar a controlar a caderneta.</p>
+        </div>
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>
