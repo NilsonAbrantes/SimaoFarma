@@ -1,129 +1,91 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Atualizar Estoque - Farmácia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Comercial Simão • Atualizar Estoque</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f4f4f9;
-      color: #0a9c74;
-    }
-
-    .container {
-      text-align: center;
-      width: 400px;
-      padding: 90px;
-      background-color: white;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-    }
-
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    .form-input,
-    .form-submit-btn {
-      width: 100%;
-      padding: 50px;
-      margin: 20px 0;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-
-    .form-submit-btn {
-      padding: 10px;
-      background-color: #0a9c74;
-      color: white;
-      font-size: 1.2em;
-      cursor: pointer;
-    }
-
-    .form-submit-btn:hover {
-      background-color: #333;
-    }
-
-    .messages {
-      margin-bottom: 20px;
-      color: #0a9c74;
-    }
-
-    .product-info {
-      margin-top: 20px;
-    }
-
-    #produto-info {
-      color: #333;
-    }
-  </style>
+  <link rel="stylesheet" href="{% static 'vendas/css/theme.css' %}">
 </head>
+<body class="app-theme stock-update-page">
+  <main class="center-stage">
+    <section class="surface-card compact stock-card">
+      <div class="page-header">
+        <div class="brand-kicker"><i class="fa-solid fa-boxes-stacked"></i> Estoque</div>
+        <h1>Atualizar Estoque</h1>
+        <p>Busque o produto e informe a nova quantidade e o novo preço.</p>
+      </div>
 
-<body>
-  <div class="container">
-    <h1>Atualizar Estoque</h1>
+      {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
 
-    <!-- Exibir mensagens de sucesso ou erro -->
-    {% if messages %}
-    <div class="messages">
-      {% for message in messages %}
-      <p>{{ message }}</p>
-      {% endfor %}
-    </div>
-    {% endif %}
+      <form id="form-buscar-produto" method="POST" class="stacked-form">
+        {% csrf_token %}
+        <div class="field-group">
+          <label for="pesquisa_produto">Produto</label>
+          <input type="text" id="pesquisa_produto" name="pesquisa_produto" placeholder="ID, código de barras ou nome" autocomplete="off">
+        </div>
+        <div class="button-row">
+          <button type="submit"><i class="fa-solid fa-magnifying-glass"></i> Buscar Produto</button>
+        </div>
+      </form>
 
-    <!-- Formulário para pesquisa de produto -->
-    <form id="form-buscar-produto" method="POST">
-      {% csrf_token %}
-      <input type="text" id="pesquisa_produto" name="pesquisa_produto" placeholder="ID, Código de Barras ou Nome">
-      <button type="submit" class="form-submit-btn">Buscar Produto</button>
-    </form>
+      <div id="produto-info" class="stock-result" hidden>
+        <div class="section-heading">
+          <h2>Produto encontrado</h2>
+        </div>
 
-    <!-- Exibir produto encontrado e campo para atualizar o estoque -->
-    <div id="produto-info" style="display:none;">
-      <h3>Produto Encontrado:</h3>
-      <p><strong>Nome:</strong> <span id="produto-nome"></span></p>
-      <p><strong>Estoque Atual:</strong> <span id="produto-estoque"></span></p>
-      <p><strong>Preço:</strong> R$ <span id="produto-preco"></span></p>
+        <div class="stock-summary">
+          <p><strong>Nome</strong><span id="produto-nome"></span></p>
+          <p><strong>Estoque atual</strong><span id="produto-estoque"></span></p>
+          <p><strong>Preço atual</strong><span>R$ <span id="produto-preco"></span></span></p>
+        </div>
 
-      <!-- Campo para inserir novo estoque -->
-      <input type="number" id="novo-estoque" min="1" placeholder="Quantidade">
-      <input type="number" id="novo-preco" placeholder="Preço">
-      <button id="atualizar-estoque" class="form-submit-btn" style="display:none;">Atualizar Estoque</button>
-      <div id="mensagem"></div>
-    </div>
-  </div>
+        <div class="inline-fields">
+          <div class="field-group">
+            <label for="novo-estoque">Nova quantidade</label>
+            <input type="number" id="novo-estoque" min="1" inputmode="numeric" placeholder="Quantidade">
+          </div>
+          <div class="field-group">
+            <label for="novo-preco">Novo preço</label>
+            <input type="number" id="novo-preco" min="0.01" step="0.01" inputmode="decimal" placeholder="0,00">
+          </div>
+        </div>
+
+        <div class="button-row stock-actions">
+          <a href="{% url 'home' %}" class="back-button btn-ghost"><i class="fa-solid fa-house"></i> Voltar</a>
+          <button type="button" id="atualizar-estoque"><i class="fa-solid fa-floppy-disk"></i> Atualizar Estoque</button>
+        </div>
+        <div id="mensagem" class="inline-message" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="button-row stock-back-only">
+        <a href="{% url 'home' %}" class="back-button btn-ghost"><i class="fa-solid fa-house"></i> Voltar ao início</a>
+      </div>
+    </section>
+  </main>
 
   <script>
-    // Envio do formulário de busca para consultar o produto
     $('#form-buscar-produto').submit(function (event) {
-      event.preventDefault();  // Impede o envio do formulário tradicional
+      event.preventDefault();
+      $('#mensagem').text('').removeClass('is-error is-success');
+      $('#produto-info').prop('hidden', true);
 
-      // Limpar qualquer mensagem anterior
-      $('#mensagem').text('');
-      $('#produto-info').hide();  // Esconde as informações do produto até encontrar
-
-      var codigoProduto = $('#pesquisa_produto').val();
-
+      const codigoProduto = $('#pesquisa_produto').val().trim();
       if (!codigoProduto) {
-        alert("Por favor, insira um código de barras ou ID.");
+        $('#mensagem').text('Informe um código de barras, ID ou nome.').addClass('is-error');
         return;
       }
 
-      // Buscar o produto pelo código ou ID
       $.ajax({
-        url: '{% url "buscar_produto" %}',  // URL para a função de buscar produto
+        url: '{% url "buscar_produto" %}',
         type: 'POST',
         data: {
           csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -131,63 +93,59 @@
         },
         success: function (response) {
           if (response.produto) {
-            // Exibe as informações do produto
             $('#produto-nome').text(response.produto.nome);
             $('#produto-estoque').text(response.produto.estoque);
             $('#produto-preco').text(response.produto.preco);
-
-            // Exibe o campo para atualizar o estoque
-            $('#produto-info').show();
-            $('#atualizar-estoque').show();  // Mostra o botão para atualizar o estoque
+            $('#produto-info').prop('hidden', false);
+            $('#novo-estoque').trigger('focus');
           } else {
-            // Se o produto não for encontrado, exibe um alerta
-            alert("Produto não encontrado.");
-            $('#mensagem').text("Produto não encontrado.").css('color', 'red');
+            $('#mensagem').text('Produto não encontrado.').addClass('is-error');
           }
         },
         error: function () {
-          alert('Erro ao buscar produto.');
+          $('#mensagem').text('Erro ao buscar produto.').addClass('is-error');
         }
       });
     });
 
-    // Atualiza o estoque com AJAX
     $('#atualizar-estoque').click(function () {
-      var novoEstoque = $('#novo-estoque').val();
-      var novoPreco = $('#novo-preco').val();
-      if (!novoEstoque || novoEstoque < 1) {
-        $('#mensagem').text("Por favor, insira uma quantidade válida para o estoque.").css('color', 'red');
+      const novoEstoque = $('#novo-estoque').val();
+      const novoPreco = $('#novo-preco').val();
+      const codigoProduto = $('#pesquisa_produto').val().trim();
+
+      $('#mensagem').text('').removeClass('is-error is-success');
+
+      if (!novoEstoque || Number(novoEstoque) < 1) {
+        $('#mensagem').text('Informe uma quantidade válida para o estoque.').addClass('is-error');
         return;
       }
-      if (!novoPreco || novoPreco < 1) {
-        $('#mensagem').text("Por favor, insira uma quantidade válida para o Preço.").css('color', 'red');
+      if (!novoPreco || Number(novoPreco) <= 0) {
+        $('#mensagem').text('Informe um preço válido.').addClass('is-error');
         return;
       }
-      var codigoProduto = $('#pesquisa_produto').val();
 
       $.ajax({
-        url: '{% url "atualizar_estoque" %}',  // URL para atualizar estoque
+        url: '{% url "atualizar_estoque" %}',
         type: 'POST',
         data: {
           csrfmiddlewaretoken: '{{ csrf_token }}',
           pesquisa_produto: codigoProduto,
           novo_estoque: novoEstoque,
-          novo_preco : novoPreco
+          novo_preco: novoPreco
         },
         success: function (response) {
           if (response.status === 'success') {
-            $('#mensagem').text("Estoque atualizado com sucesso!").css('color', 'green');
+            $('#mensagem').text('Estoque atualizado com sucesso!').addClass('is-success');
             window.location.href = '{% url "home" %}';
           } else {
-            $('#mensagem').text(response.message).css('color', 'red');
+            $('#mensagem').text(response.message || 'Não foi possível atualizar o estoque.').addClass('is-error');
           }
         },
         error: function () {
-          $('#mensagem').text("Erro ao comunicar com o servidor.").css('color', 'red');
+          $('#mensagem').text('Erro ao comunicar com o servidor.').addClass('is-error');
         }
       });
     });
   </script>
 </body>
-
 </html>

@@ -4,7 +4,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Comercial Simão • Realizar Venda</title>
 
   <!-- jQuery + Select2 -->
@@ -62,7 +62,7 @@
 
         <div class="field-group small-field">
           <label for="id_quantidade">Quantidade</label>
-          <input type="number" id="id_quantidade" value="1" min="1">
+          <input type="number" id="id_quantidade" value="1" min="1" inputmode="numeric">
         </div>
 
         <div class="button-row nav-buttons">
@@ -164,9 +164,9 @@
 
             <div class="item-controls">
               <input type="number" min="1" value="${item.quantidade}"
-                class="input-quantidade" data-index="${index}">
+                class="input-quantidade" data-index="${index}" aria-label="Quantidade de ${item.produtoNome}">
 
-              <button class="remover" data-index="${index}">
+              <button type="button" class="remover" data-index="${index}" aria-label="Remover ${item.produtoNome} do carrinho">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </div>

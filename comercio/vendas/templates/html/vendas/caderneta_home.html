@@ -3,7 +3,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Comercial Simão • Caderneta</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="{% static 'vendas/css/theme.css' %}">
@@ -27,9 +27,10 @@
 
       <div class="stats-strip notebook-stats">
         <div class="stat-card">
-          <div class="stat-label">Caloteiros cadastrados: {{ clientes|length }}</div>
+          <div class="stat-label">Caloteiros cadastrados</div>
+          <div class="stat-value">{{ clientes|length }}</div>
         </div>
-
+      </div>
 
       <div class="nav-buttons notebook-actions top-actions">
         <br>
@@ -48,8 +49,15 @@
           {% for cliente in clientes %}
             <a href="{% url 'detalhe_cliente' cliente.id %}" class="client-card-link">
               <article class="client-card">
+                <div class="client-card-icon" aria-hidden="true">
+                  <i class="fa-solid fa-user"></i>
+                </div>
                 <div class="client-card-content">
                   <h3>{{ cliente.nome }}</h3>
+                  <p>Toque para visualizar saldo e movimentações.</p>
+                </div>
+                <div class="client-card-arrow" aria-hidden="true">
+                  <i class="fa-solid fa-chevron-right"></i>
                 </div>
               </article>
             </a>

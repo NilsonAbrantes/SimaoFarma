@@ -3,7 +3,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Comercial Simão • Listar Produtos</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="{% static 'vendas/css/theme.css' %}">
@@ -32,7 +32,7 @@
             name="codigo_barras"
             id="codigo_barras"
             value="{{ filtro_codigo_barras }}"
-            placeholder="Digite o código de barras"
+            placeholder="Digite o código de barras" inputmode="search"
           >
         </div>
 
@@ -43,7 +43,7 @@
             name="nome"
             id="nome"
             value="{{ filtro_nome }}"
-            placeholder="Digite o nome"
+            placeholder="Digite o nome" inputmode="search"
           >
         </div>
 
@@ -63,7 +63,7 @@
       </form>
 
       <div class="table-wrap">
-        <table>
+        <table class="mobile-card-table">
           <thead>
             <tr>
               <th>ID</th>
@@ -76,13 +76,13 @@
           <tbody>
             {% for produto in produtos %}
               <tr>
-                <td>{{ produto.id }}</td>
-                <td>{{ produto.nome }}</td>
-                <td>R$ {{ produto.preco }}</td>
-                <td>{{ produto.estoque }}</td>
-                <td>
+                <td data-label="ID">{{ produto.id }}</td>
+                <td data-label="Nome">{{ produto.nome }}</td>
+                <td data-label="Preço">R$ {{ produto.preco }}</td>
+                <td data-label="Estoque">{{ produto.estoque }}</td>
+                <td data-label="Ações">
                   <div class="actions">
-                    <a href="{% url 'editar_produto' produto.id %}" class="icon-btn edit-btn" title="Editar">
+                    <a href="{% url 'editar_produto' produto.id %}" class="icon-btn edit-btn" title="Editar" aria-label="Editar {{ produto.nome }}">
                       <i class="fa-solid fa-pen"></i>
                     </a>
 
@@ -90,6 +90,7 @@
                       type="button"
                       class="icon-btn delete-btn open-delete-modal"
                       title="Excluir"
+                      aria-label="Excluir {{ produto.nome }}"
                       data-url="{% url 'excluir_produto' produto.id %}"
                       data-name="{{ produto.nome }}"
                     >
@@ -100,7 +101,7 @@
               </tr>
             {% empty %}
               <tr>
-                <td colspan="5" class="empty-row">Nenhum produto encontrado.</td>
+                <td colspan="5" class="empty-row" data-label="">Nenhum produto encontrado.</td>
               </tr>
             {% endfor %}
           </tbody>
@@ -115,9 +116,9 @@
     </section>
   </main>
 
-  <div class="modal" id="deleteModal">
+  <div class="modal" id="deleteModal" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
     <div class="modal-content">
-      <h3>Confirmar exclusão</h3>
+      <h3 id="deleteModalTitle">Confirmar exclusão</h3>
       <p id="deleteMessage"></p>
 
       <form id="deleteForm" method="post">
@@ -148,16 +149,27 @@
         deleteForm.action = url;
         deleteMessage.textContent = `Você quer mesmo excluir o produto "${name}"?`;
         modal.style.display = 'flex';
+        document.body.classList.add('modal-open');
+        cancelDelete.focus();
       });
     });
 
     cancelDelete.addEventListener('click', function () {
       modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
     });
 
     modal.addEventListener('click', function (event) {
       if (event.target === modal) {
         modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
+      }
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && modal.style.display === 'flex') {
+        modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
       }
     });
   </script>
