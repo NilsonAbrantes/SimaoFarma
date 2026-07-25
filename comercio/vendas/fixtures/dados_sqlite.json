@@ -1,0 +1,1841 @@
+[
+  {
+    "model": "vendas.produto",
+    "pk": 4,
+    "fields": {
+      "nome": "Prego 18x27 de Caibro",
+      "descricao": "",
+      "preco": "20.00",
+      "codigo_barras": null,
+      "estoque": 9
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 5,
+    "fields": {
+      "nome": "Prego 15x18 de Ripa",
+      "descricao": "",
+      "preco": "22.00",
+      "codigo_barras": null,
+      "estoque": 20
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 6,
+    "fields": {
+      "nome": "Prego para Cerca 19x11",
+      "descricao": "",
+      "preco": "27.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 7,
+    "fields": {
+      "nome": "Prego sem cabeça 11x11",
+      "descricao": "",
+      "preco": "30.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 8,
+    "fields": {
+      "nome": "Prego sem cabeça 10x10",
+      "descricao": "",
+      "preco": "30.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 9,
+    "fields": {
+      "nome": "Colher de pedreiro Paceta 10 PLG",
+      "descricao": "",
+      "preco": "35.00",
+      "codigo_barras": null,
+      "estoque": 4
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 10,
+    "fields": {
+      "nome": "Colher de pedreiro Paceta 9 PLG",
+      "descricao": "",
+      "preco": "30.00",
+      "codigo_barras": null,
+      "estoque": 2
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 11,
+    "fields": {
+      "nome": "Colher de pedreiro Galvânia 6 PLG",
+      "descricao": "",
+      "preco": "25.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 12,
+    "fields": {
+      "nome": "Colher de pedreiro Vox 8 PLG",
+      "descricao": "",
+      "preco": "27.00",
+      "codigo_barras": null,
+      "estoque": 3
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 13,
+    "fields": {
+      "nome": "Faca Tramontina 8 PLG",
+      "descricao": "",
+      "preco": "15.00",
+      "codigo_barras": null,
+      "estoque": 7
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 14,
+    "fields": {
+      "nome": "Facão Cabo arame Gavilan 20 PLG",
+      "descricao": "",
+      "preco": "60.00",
+      "codigo_barras": null,
+      "estoque": 4
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 15,
+    "fields": {
+      "nome": "Enxada Tramontina",
+      "descricao": "",
+      "preco": "62.00",
+      "codigo_barras": null,
+      "estoque": 4
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 16,
+    "fields": {
+      "nome": "Pá Tramontina B-quadrado",
+      "descricao": "",
+      "preco": "45.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 17,
+    "fields": {
+      "nome": "Cavadeira Vap",
+      "descricao": "",
+      "preco": "50.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 18,
+    "fields": {
+      "nome": "Balde de ferro inox Vox",
+      "descricao": "",
+      "preco": "22.00",
+      "codigo_barras": null,
+      "estoque": 6
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 19,
+    "fields": {
+      "nome": "Balde preto de ferro 10L",
+      "descricao": "",
+      "preco": "20.00",
+      "codigo_barras": null,
+      "estoque": 5
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 20,
+    "fields": {
+      "nome": "Balde plastico redondo vox",
+      "descricao": "",
+      "preco": "16.00",
+      "codigo_barras": null,
+      "estoque": 2
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 21,
+    "fields": {
+      "nome": "Balde de plástico Brasipa",
+      "descricao": "",
+      "preco": "18.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 22,
+    "fields": {
+      "nome": "Peneira redonda",
+      "descricao": "",
+      "preco": "25.00",
+      "codigo_barras": null,
+      "estoque": 3
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 23,
+    "fields": {
+      "nome": "Mangueira dupla capa para jardim 15M",
+      "descricao": "",
+      "preco": "40.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 24,
+    "fields": {
+      "nome": "Mangueira dupla capa para jardim 10M",
+      "descricao": "",
+      "preco": "30.00",
+      "codigo_barras": null,
+      "estoque": 2
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 25,
+    "fields": {
+      "nome": "Assento para vaso sanitário Verona",
+      "descricao": "",
+      "preco": "40.00",
+      "codigo_barras": null,
+      "estoque": 2
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 26,
+    "fields": {
+      "nome": "Carro de mão",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 27,
+    "fields": {
+      "nome": "Adaptador c/ flange p/ caixa d'agua",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 28,
+    "fields": {
+      "nome": "Adaptador Soldável Curto",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 29,
+    "fields": {
+      "nome": "Bucha redonda soldável curta",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 30,
+    "fields": {
+      "nome": "Bucha redonda soldável longa",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 31,
+    "fields": {
+      "nome": "Joelho esgoto",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 32,
+    "fields": {
+      "nome": "joelho soldável",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 33,
+    "fields": {
+      "nome": "joelho",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 34,
+    "fields": {
+      "nome": "luva LR",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 35,
+    "fields": {
+      "nome": "luvas",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 36,
+    "fields": {
+      "nome": "luva soldável",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 37,
+    "fields": {
+      "nome": "plug e nipel roscáveis",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 38,
+    "fields": {
+      "nome": "T redução para esgoto",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 39,
+    "fields": {
+      "nome": "T soldável",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 40,
+    "fields": {
+      "nome": "T esgoto",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 41,
+    "fields": {
+      "nome": "Curva",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 42,
+    "fields": {
+      "nome": "junção simples",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 43,
+    "fields": {
+      "nome": "boia p/ caixa d'agua",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 44,
+    "fields": {
+      "nome": "União soldável",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 45,
+    "fields": {
+      "nome": "Válvula de retenção",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 46,
+    "fields": {
+      "nome": "Anel de vedação",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 47,
+    "fields": {
+      "nome": "Fita veda rosca",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 2
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 48,
+    "fields": {
+      "nome": "sifão flexbranco",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 49,
+    "fields": {
+      "nome": "Farinha",
+      "descricao": "",
+      "preco": "17.00",
+      "codigo_barras": null,
+      "estoque": 15
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 50,
+    "fields": {
+      "nome": "Arroz",
+      "descricao": "",
+      "preco": "4.00",
+      "codigo_barras": null,
+      "estoque": 15
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 51,
+    "fields": {
+      "nome": "macarrão",
+      "descricao": "",
+      "preco": "3.50",
+      "codigo_barras": null,
+      "estoque": 15
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 52,
+    "fields": {
+      "nome": "óleo",
+      "descricao": "",
+      "preco": "10.00",
+      "codigo_barras": null,
+      "estoque": 3
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 53,
+    "fields": {
+      "nome": "leite",
+      "descricao": "",
+      "preco": "8.00",
+      "codigo_barras": null,
+      "estoque": 10
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 54,
+    "fields": {
+      "nome": "sabão azul",
+      "descricao": "",
+      "preco": "3.00",
+      "codigo_barras": null,
+      "estoque": 10
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 55,
+    "fields": {
+      "nome": "papel higiênico",
+      "descricao": "",
+      "preco": "5.00",
+      "codigo_barras": null,
+      "estoque": 10
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 56,
+    "fields": {
+      "nome": "ovo",
+      "descricao": "",
+      "preco": "1.00",
+      "codigo_barras": null,
+      "estoque": 225
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 57,
+    "fields": {
+      "nome": "gás",
+      "descricao": "",
+      "preco": "120.00",
+      "codigo_barras": null,
+      "estoque": 5
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 58,
+    "fields": {
+      "nome": "carvão",
+      "descricao": "",
+      "preco": "5.00",
+      "codigo_barras": null,
+      "estoque": 19
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 59,
+    "fields": {
+      "nome": "biscoito amori",
+      "descricao": "",
+      "preco": "3.20",
+      "codigo_barras": null,
+      "estoque": 4
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 60,
+    "fields": {
+      "nome": "lata jesus",
+      "descricao": "",
+      "preco": "4.00",
+      "codigo_barras": null,
+      "estoque": 2
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 61,
+    "fields": {
+      "nome": "skol lata",
+      "descricao": "",
+      "preco": "4.50",
+      "codigo_barras": null,
+      "estoque": 15
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 62,
+    "fields": {
+      "nome": "coca cola",
+      "descricao": "",
+      "preco": "14.00",
+      "codigo_barras": null,
+      "estoque": 7
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 63,
+    "fields": {
+      "nome": "coca cola zero",
+      "descricao": "",
+      "preco": "13.00",
+      "codigo_barras": null,
+      "estoque": 6
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 64,
+    "fields": {
+      "nome": "Guaraná Antártica",
+      "descricao": "",
+      "preco": "12.00",
+      "codigo_barras": null,
+      "estoque": 5
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 65,
+    "fields": {
+      "nome": "cerveja antartica",
+      "descricao": "",
+      "preco": "10.00",
+      "codigo_barras": null,
+      "estoque": 78
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 66,
+    "fields": {
+      "nome": "coca lata",
+      "descricao": "",
+      "preco": "4.00",
+      "codigo_barras": null,
+      "estoque": 7
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 67,
+    "fields": {
+      "nome": "Garganta - pia",
+      "descricao": "",
+      "preco": "12.00",
+      "codigo_barras": null,
+      "estoque": 5
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 68,
+    "fields": {
+      "nome": "mangueira pia",
+      "descricao": "",
+      "preco": "7.00",
+      "codigo_barras": null,
+      "estoque": 4
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 69,
+    "fields": {
+      "nome": "T 2p+t 10A Pluzzie",
+      "descricao": "",
+      "preco": "8.00",
+      "codigo_barras": null,
+      "estoque": 25
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 70,
+    "fields": {
+      "nome": "T 2p Pluzzie",
+      "descricao": "",
+      "preco": "6.00",
+      "codigo_barras": null,
+      "estoque": 10
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 71,
+    "fields": {
+      "nome": "Tomada 2p+t Pluzzie Branca",
+      "descricao": "",
+      "preco": "9.00",
+      "codigo_barras": null,
+      "estoque": 10
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 72,
+    "fields": {
+      "nome": "Interruptor 2 teclas simples ideal",
+      "descricao": "",
+      "preco": "9.00",
+      "codigo_barras": null,
+      "estoque": 17
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 73,
+    "fields": {
+      "nome": "cartela de ovo",
+      "descricao": "",
+      "preco": "20.00",
+      "codigo_barras": null,
+      "estoque": 7
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 75,
+    "fields": {
+      "nome": "Ala",
+      "descricao": "",
+      "preco": "4.00",
+      "codigo_barras": null,
+      "estoque": 9
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 76,
+    "fields": {
+      "nome": "manteiga 250g",
+      "descricao": "",
+      "preco": "4.00",
+      "codigo_barras": null,
+      "estoque": 8
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 77,
+    "fields": {
+      "nome": "ypê",
+      "descricao": "",
+      "preco": "3.50",
+      "codigo_barras": null,
+      "estoque": 20
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 78,
+    "fields": {
+      "nome": "vinagre 750g",
+      "descricao": "",
+      "preco": "6.00",
+      "codigo_barras": null,
+      "estoque": 8
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 79,
+    "fields": {
+      "nome": "Açúcar",
+      "descricao": "",
+      "preco": "4.00",
+      "codigo_barras": null,
+      "estoque": 25
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 80,
+    "fields": {
+      "nome": "Azeitona",
+      "descricao": "",
+      "preco": "8.00",
+      "codigo_barras": null,
+      "estoque": 6
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 81,
+    "fields": {
+      "nome": "só coco",
+      "descricao": "",
+      "preco": "8.00",
+      "codigo_barras": null,
+      "estoque": 6
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 82,
+    "fields": {
+      "nome": "Joelho esgoto de 100",
+      "descricao": "",
+      "preco": "10.00",
+      "codigo_barras": null,
+      "estoque": 6
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 83,
+    "fields": {
+      "nome": "Joelho esgoto de 100",
+      "descricao": "",
+      "preco": "10.00",
+      "codigo_barras": null,
+      "estoque": 6
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 84,
+    "fields": {
+      "nome": "Curva esgoto 100",
+      "descricao": "",
+      "preco": "15.00",
+      "codigo_barras": null,
+      "estoque": 4
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 85,
+    "fields": {
+      "nome": "Joelho 45° 75",
+      "descricao": "",
+      "preco": "12.00",
+      "codigo_barras": null,
+      "estoque": 5
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 86,
+    "fields": {
+      "nome": "Redução de esgoto de 75/50",
+      "descricao": "",
+      "preco": "12.00",
+      "codigo_barras": null,
+      "estoque": 8
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 87,
+    "fields": {
+      "nome": "Y de 100/100 esgoto",
+      "descricao": "",
+      "preco": "20.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 88,
+    "fields": {
+      "nome": "Y de 100/75 esgoto",
+      "descricao": "",
+      "preco": "20.00",
+      "codigo_barras": null,
+      "estoque": 2
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 89,
+    "fields": {
+      "nome": "Joelho de 100 com visita p/ 50",
+      "descricao": "",
+      "preco": "20.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 90,
+    "fields": {
+      "nome": "Luva esgoto 75",
+      "descricao": "",
+      "preco": "12.00",
+      "codigo_barras": null,
+      "estoque": 5
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 91,
+    "fields": {
+      "nome": "Y de 75 esgoto",
+      "descricao": "",
+      "preco": "15.00",
+      "codigo_barras": null,
+      "estoque": 2
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 92,
+    "fields": {
+      "nome": "T de 75",
+      "descricao": "",
+      "preco": "20.00",
+      "codigo_barras": null,
+      "estoque": 3
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 93,
+    "fields": {
+      "nome": "T 50",
+      "descricao": "",
+      "preco": "10.00",
+      "codigo_barras": null,
+      "estoque": 10
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 94,
+    "fields": {
+      "nome": "T 40 esgoto",
+      "descricao": "",
+      "preco": "8.00",
+      "codigo_barras": null,
+      "estoque": 30
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 95,
+    "fields": {
+      "nome": "Joelho de 50 90°",
+      "descricao": "",
+      "preco": "8.00",
+      "codigo_barras": null,
+      "estoque": 7
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 96,
+    "fields": {
+      "nome": "joelho 50 45°",
+      "descricao": "",
+      "preco": "9.00",
+      "codigo_barras": null,
+      "estoque": 2
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 97,
+    "fields": {
+      "nome": "Curva longa 50",
+      "descricao": "",
+      "preco": "20.00",
+      "codigo_barras": null,
+      "estoque": 4
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 98,
+    "fields": {
+      "nome": "y esgoto 50",
+      "descricao": "",
+      "preco": "12.00",
+      "codigo_barras": null,
+      "estoque": 3
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 99,
+    "fields": {
+      "nome": "Y esgoto 40",
+      "descricao": "",
+      "preco": "10.00",
+      "codigo_barras": null,
+      "estoque": 5
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 100,
+    "fields": {
+      "nome": "Curva longa 40",
+      "descricao": "",
+      "preco": "15.00",
+      "codigo_barras": null,
+      "estoque": 4
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 101,
+    "fields": {
+      "nome": "joelho de 40 90°",
+      "descricao": "",
+      "preco": "5.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 102,
+    "fields": {
+      "nome": "joelho de 40 45°",
+      "descricao": "",
+      "preco": "6.00",
+      "codigo_barras": null,
+      "estoque": 13
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 103,
+    "fields": {
+      "nome": "curva curta 40 esgoto",
+      "descricao": "",
+      "preco": "8.00",
+      "codigo_barras": null,
+      "estoque": 6
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 104,
+    "fields": {
+      "nome": "Taps esgoto 100",
+      "descricao": "",
+      "preco": "10.00",
+      "codigo_barras": null,
+      "estoque": 6
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 105,
+    "fields": {
+      "nome": "Taps esgoto 75",
+      "descricao": "",
+      "preco": "8.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 106,
+    "fields": {
+      "nome": "taps esgoto 150 anel",
+      "descricao": "",
+      "preco": "25.00",
+      "codigo_barras": null,
+      "estoque": 5
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 107,
+    "fields": {
+      "nome": "taps esgoto 150 s/anel",
+      "descricao": "",
+      "preco": "20.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 108,
+    "fields": {
+      "nome": "taps esgoto 50",
+      "descricao": "",
+      "preco": "5.00",
+      "codigo_barras": null,
+      "estoque": 11
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 109,
+    "fields": {
+      "nome": "taps esgoto 40",
+      "descricao": "",
+      "preco": "3.00",
+      "codigo_barras": null,
+      "estoque": 6
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 110,
+    "fields": {
+      "nome": "luva esgoto 50",
+      "descricao": "",
+      "preco": "5.00",
+      "codigo_barras": null,
+      "estoque": 5
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 111,
+    "fields": {
+      "nome": "Redução de esgoto de 50/40",
+      "descricao": "",
+      "preco": "5.00",
+      "codigo_barras": null,
+      "estoque": 22
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 112,
+    "fields": {
+      "nome": "luva esgoto 40",
+      "descricao": "",
+      "preco": "4.00",
+      "codigo_barras": null,
+      "estoque": 3
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 113,
+    "fields": {
+      "nome": "luva esgoto correr 40",
+      "descricao": "",
+      "preco": "8.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 114,
+    "fields": {
+      "nome": "Redução de esgoto de 150/100",
+      "descricao": "",
+      "preco": "25.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 115,
+    "fields": {
+      "nome": "redução esgoto 100/75",
+      "descricao": "",
+      "preco": "12.00",
+      "codigo_barras": null,
+      "estoque": 4
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 116,
+    "fields": {
+      "nome": "redução esgoto 100/50",
+      "descricao": "",
+      "preco": "10.00",
+      "codigo_barras": null,
+      "estoque": 8
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 117,
+    "fields": {
+      "nome": "joelho esgoto 100 45°",
+      "descricao": "",
+      "preco": "12.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 118,
+    "fields": {
+      "nome": "luva esgoto 100",
+      "descricao": "",
+      "preco": "9.00",
+      "codigo_barras": null,
+      "estoque": 6
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 119,
+    "fields": {
+      "nome": "caixa sifonada 150/50",
+      "descricao": "",
+      "preco": "30.00",
+      "codigo_barras": null,
+      "estoque": 1
+    }
+  },
+  {
+    "model": "vendas.produto",
+    "pk": 120,
+    "fields": {
+      "nome": "caixa sifonada 100/50",
+      "descricao": "",
+      "preco": "17.00",
+      "codigo_barras": null,
+      "estoque": 2
+    }
+  },
+  {
+    "model": "vendas.cliente",
+    "pk": 1,
+    "fields": {
+      "nome": "Ana"
+    }
+  },
+  {
+    "model": "vendas.cliente",
+    "pk": 2,
+    "fields": {
+      "nome": "Jêca"
+    }
+  },
+  {
+    "model": "vendas.cliente",
+    "pk": 3,
+    "fields": {
+      "nome": "Vó Maria"
+    }
+  },
+  {
+    "model": "vendas.cliente",
+    "pk": 4,
+    "fields": {
+      "nome": "Tia Lindomar"
+    }
+  },
+  {
+    "model": "vendas.cliente",
+    "pk": 5,
+    "fields": {
+      "nome": "zé maria"
+    }
+  },
+  {
+    "model": "vendas.cliente",
+    "pk": 6,
+    "fields": {
+      "nome": "Eusébia"
+    }
+  },
+  {
+    "model": "vendas.caderneta",
+    "pk": 1,
+    "fields": {
+      "cliente": 1,
+      "saldo_devedor": "41.00"
+    }
+  },
+  {
+    "model": "vendas.caderneta",
+    "pk": 2,
+    "fields": {
+      "cliente": 2,
+      "saldo_devedor": "0.00"
+    }
+  },
+  {
+    "model": "vendas.caderneta",
+    "pk": 3,
+    "fields": {
+      "cliente": 3,
+      "saldo_devedor": "82.00"
+    }
+  },
+  {
+    "model": "vendas.caderneta",
+    "pk": 4,
+    "fields": {
+      "cliente": 4,
+      "saldo_devedor": "8.20"
+    }
+  },
+  {
+    "model": "vendas.caderneta",
+    "pk": 5,
+    "fields": {
+      "cliente": 5,
+      "saldo_devedor": "120.00"
+    }
+  },
+  {
+    "model": "vendas.caderneta",
+    "pk": 6,
+    "fields": {
+      "cliente": 6,
+      "saldo_devedor": "0.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 4,
+    "fields": {
+      "produto": 49,
+      "cliente": 1,
+      "quantidade": 2,
+      "data_venda": "2026-04-05T17:46:00.595547Z",
+      "total": "34.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 5,
+    "fields": {
+      "produto": 50,
+      "cliente": 3,
+      "quantidade": 10,
+      "data_venda": "2026-04-05T20:47:45.194567Z",
+      "total": "40.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 6,
+    "fields": {
+      "produto": 52,
+      "cliente": 3,
+      "quantidade": 3,
+      "data_venda": "2026-04-05T21:31:46.173591Z",
+      "total": "30.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 7,
+    "fields": {
+      "produto": 50,
+      "cliente": 3,
+      "quantidade": 2,
+      "data_venda": "2026-04-05T21:31:46.175823Z",
+      "total": "8.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 8,
+    "fields": {
+      "produto": 50,
+      "cliente": 3,
+      "quantidade": 1,
+      "data_venda": "2026-04-07T12:30:37.790075Z",
+      "total": "4.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 9,
+    "fields": {
+      "produto": 62,
+      "cliente": 4,
+      "quantidade": 1,
+      "data_venda": "2026-04-11T15:45:10.173224Z",
+      "total": "14.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 10,
+    "fields": {
+      "produto": 49,
+      "cliente": 4,
+      "quantidade": 3,
+      "data_venda": "2026-04-11T15:45:10.175176Z",
+      "total": "51.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 11,
+    "fields": {
+      "produto": 52,
+      "cliente": 4,
+      "quantidade": 1,
+      "data_venda": "2026-04-11T15:45:10.176738Z",
+      "total": "10.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 12,
+    "fields": {
+      "produto": 51,
+      "cliente": 4,
+      "quantidade": 2,
+      "data_venda": "2026-04-11T15:45:10.178244Z",
+      "total": "7.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 13,
+    "fields": {
+      "produto": 50,
+      "cliente": 4,
+      "quantidade": 10,
+      "data_venda": "2026-04-11T15:46:11.916585Z",
+      "total": "40.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 14,
+    "fields": {
+      "produto": 62,
+      "cliente": 4,
+      "quantidade": 1,
+      "data_venda": "2026-04-11T21:34:30.535663Z",
+      "total": "14.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 15,
+    "fields": {
+      "produto": 64,
+      "cliente": 4,
+      "quantidade": 1,
+      "data_venda": "2026-04-11T21:34:30.541487Z",
+      "total": "12.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 16,
+    "fields": {
+      "produto": 65,
+      "cliente": 5,
+      "quantidade": 22,
+      "data_venda": "2026-04-13T22:24:08.408894Z",
+      "total": "220.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 17,
+    "fields": {
+      "produto": 66,
+      "cliente": 5,
+      "quantidade": 1,
+      "data_venda": "2026-04-13T22:25:22.771109Z",
+      "total": "4.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 18,
+    "fields": {
+      "produto": 68,
+      "cliente": 6,
+      "quantidade": 1,
+      "data_venda": "2026-04-13T22:32:55.057720Z",
+      "total": "7.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 19,
+    "fields": {
+      "produto": 66,
+      "cliente": null,
+      "quantidade": 2,
+      "data_venda": "2026-04-13T22:33:53.477060Z",
+      "total": "8.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 20,
+    "fields": {
+      "produto": 56,
+      "cliente": null,
+      "quantidade": 9,
+      "data_venda": "2026-04-13T22:33:53.478161Z",
+      "total": "9.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 21,
+    "fields": {
+      "produto": 59,
+      "cliente": 4,
+      "quantidade": 1,
+      "data_venda": "2026-04-17T22:39:57.874587Z",
+      "total": "3.20"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 22,
+    "fields": {
+      "produto": 58,
+      "cliente": 4,
+      "quantidade": 1,
+      "data_venda": "2026-04-17T22:39:57.876546Z",
+      "total": "5.00"
+    }
+  },
+  {
+    "model": "vendas.venda",
+    "pk": 23,
+    "fields": {
+      "produto": 75,
+      "cliente": null,
+      "quantidade": 1,
+      "data_venda": "2026-07-23T17:05:56.447258Z",
+      "total": "4.00"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 1,
+    "fields": {
+      "caderneta": 1,
+      "tipo": "divida",
+      "valor": "34.00",
+      "descricao": "Farinha",
+      "data": "2026-04-05T17:46:00.645871Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 2,
+    "fields": {
+      "caderneta": 1,
+      "tipo": "divida",
+      "valor": "7.00",
+      "descricao": "meio refri coca",
+      "data": "2026-04-05T17:46:44.192358Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 3,
+    "fields": {
+      "caderneta": 4,
+      "tipo": "divida",
+      "valor": "7.00",
+      "descricao": "meio refri coca",
+      "data": "2026-04-05T20:14:18.880826Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 4,
+    "fields": {
+      "caderneta": 3,
+      "tipo": "divida",
+      "valor": "40.00",
+      "descricao": "Arroz",
+      "data": "2026-04-05T20:47:45.195723Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 5,
+    "fields": {
+      "caderneta": 3,
+      "tipo": "divida",
+      "valor": "30.00",
+      "descricao": "3 x óleo",
+      "data": "2026-04-05T21:31:46.174915Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 6,
+    "fields": {
+      "caderneta": 3,
+      "tipo": "divida",
+      "valor": "8.00",
+      "descricao": "2 x Arroz",
+      "data": "2026-04-05T21:31:46.176625Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 7,
+    "fields": {
+      "caderneta": 3,
+      "tipo": "divida",
+      "valor": "4.00",
+      "descricao": "1 x Arroz",
+      "data": "2026-04-07T12:30:37.791434Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 8,
+    "fields": {
+      "caderneta": 4,
+      "tipo": "divida",
+      "valor": "14.00",
+      "descricao": "1 x coca cola",
+      "data": "2026-04-11T15:45:10.174351Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 9,
+    "fields": {
+      "caderneta": 4,
+      "tipo": "divida",
+      "valor": "51.00",
+      "descricao": "3 x Farinha",
+      "data": "2026-04-11T15:45:10.175978Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 10,
+    "fields": {
+      "caderneta": 4,
+      "tipo": "divida",
+      "valor": "10.00",
+      "descricao": "1 x óleo",
+      "data": "2026-04-11T15:45:10.177487Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 11,
+    "fields": {
+      "caderneta": 4,
+      "tipo": "divida",
+      "valor": "7.00",
+      "descricao": "2 x macarrão",
+      "data": "2026-04-11T15:45:10.178999Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 12,
+    "fields": {
+      "caderneta": 4,
+      "tipo": "divida",
+      "valor": "40.00",
+      "descricao": "10 x Arroz",
+      "data": "2026-04-11T15:46:11.917669Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 13,
+    "fields": {
+      "caderneta": 4,
+      "tipo": "divida",
+      "valor": "14.00",
+      "descricao": "1 x coca cola",
+      "data": "2026-04-11T21:34:30.539200Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 14,
+    "fields": {
+      "caderneta": 4,
+      "tipo": "divida",
+      "valor": "12.00",
+      "descricao": "1 x Guaraná Antártica",
+      "data": "2026-04-11T21:34:30.544080Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 15,
+    "fields": {
+      "caderneta": 5,
+      "tipo": "divida",
+      "valor": "220.00",
+      "descricao": "22 x cerveja antartica",
+      "data": "2026-04-13T22:24:08.410153Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 16,
+    "fields": {
+      "caderneta": 5,
+      "tipo": "divida",
+      "valor": "4.00",
+      "descricao": "1 x coca lata",
+      "data": "2026-04-13T22:25:22.772501Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 17,
+    "fields": {
+      "caderneta": 6,
+      "tipo": "divida",
+      "valor": "7.00",
+      "descricao": "1 x mangueira pia",
+      "data": "2026-04-13T22:32:55.059125Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 18,
+    "fields": {
+      "caderneta": 4,
+      "tipo": "pagamento",
+      "valor": "155.00",
+      "descricao": "",
+      "data": "2026-04-17T22:38:52.458739Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 19,
+    "fields": {
+      "caderneta": 4,
+      "tipo": "divida",
+      "valor": "3.20",
+      "descricao": "1 x biscoito amori",
+      "data": "2026-04-17T22:39:57.875700Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 20,
+    "fields": {
+      "caderneta": 4,
+      "tipo": "divida",
+      "valor": "5.00",
+      "descricao": "1 x carvão",
+      "data": "2026-04-17T22:39:57.877305Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 21,
+    "fields": {
+      "caderneta": 5,
+      "tipo": "pagamento",
+      "valor": "100.00",
+      "descricao": "",
+      "data": "2026-04-24T21:03:44.052508Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 22,
+    "fields": {
+      "caderneta": 5,
+      "tipo": "pagamento",
+      "valor": "4.00",
+      "descricao": "",
+      "data": "2026-04-24T21:08:10.619327Z"
+    }
+  },
+  {
+    "model": "vendas.movimentacao",
+    "pk": 23,
+    "fields": {
+      "caderneta": 6,
+      "tipo": "pagamento",
+      "valor": "7.00",
+      "descricao": "",
+      "data": "2026-06-22T22:57:29.992604Z"
+    }
+  }
+]

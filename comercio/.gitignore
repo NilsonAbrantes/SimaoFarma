@@ -1,0 +1,32 @@
+# Python
+*.py[cod]
+__pycache__/
+*.log
+
+# Banco local: os dados para produção estão na fixture versionada.
+db.sqlite3
+*.sqlite3
+
+# Django
+staticfiles/
+media/
+
+# Ambientes e segredos
+.env
+.env.*
+!.env.example
+venv/
+env/
+.venv/
+
+# Vercel
+.vercel/
+
+# IDEs
+.idea/
+.vscode/
+
+# Temporários
+*.bak
+*.swp
+*.swo

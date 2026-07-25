@@ -1,0 +1,362 @@
+diff --git a/.env.example b/.env.example
+index 3fb3ab6f520ef7a03df39caed6eb36bc9192cbfc..3de9c9805d581e8910bac8518a6cf5485b781acf 100644
+--- a/.env.example
++++ b/.env.example
+@@ -1,7 +1,18 @@
+ # Não coloque valores reais deste arquivo no Git.
+ DJANGO_SECRET_KEY=troque-por-uma-chave-segura
+ DJANGO_DEBUG=false
+-DATABASE_URL=postgresql://usuario:senha@host/banco?sslmode=require
++
++# Opção manual: copie a URI do Supabase em Connect > Transaction pooler.
++# Para o runtime da Vercel, use preferencialmente a porta 6543.
++DATABASE_URL=postgresql://postgres.PROJECT_REF:SENHA@aws-REGIAO.pooler.supabase.com:6543/postgres?sslmode=require
++
++# A integração Supabase da Vercel normalmente cria estas duas variáveis.
++# Não é necessário copiá-las manualmente quando a integração está conectada.
++# POSTGRES_URL=postgresql://...
++# POSTGRES_URL_NON_POOLING=postgresql://...
++
++# Alias opcional aceito pela aplicação.
++# SUPABASE_DATABASE_URL=postgresql://...
+ 
+ # Somente para domínio próprio, separados por vírgula.
+ DJANGO_ALLOWED_HOSTS=seudominio.com,www.seudominio.com
+diff --git a/DEPLOY_VERCEL.md b/DEPLOY_VERCEL.md
+index 01168ee09532958e7a63975f148641aa39490ffa..34b4282959684fc309936fdbd8c4245004c44d47 100644
+--- a/DEPLOY_VERCEL.md
++++ b/DEPLOY_VERCEL.md
+@@ -1,8 +1,13 @@
+-# SimaoFarma no Vercel com PostgreSQL
++# SimaoFarma no Vercel com Supabase
+ 
+-Esta versão mantém o SQLite para desenvolvimento local, mas usa PostgreSQL em produção quando a variável `DATABASE_URL` está configurada.
++Esta versão usa:
+ 
+-Os dados do `db.sqlite3` enviado foram convertidos para a fixture:
++- **SQLite** no desenvolvimento local, quando nenhuma URL PostgreSQL está configurada;
++- **Supabase Postgres** em produção na Vercel;
++- **Transaction Pooler** no runtime serverless;
++- conexão não agrupada, quando disponibilizada pela integração, para migrações e importações executadas localmente.
++
++Os dados do `db.sqlite3` enviado foram convertidos para:
+ 
+ - `vendas/fixtures/dados_sqlite.json`
+ - 116 produtos
+@@ -18,29 +23,48 @@ Abra o terminal nesta pasta, onde estão `manage.py` e `requirements.txt`:
+ ```powershell
+ git init
+ git add .
+-git commit -m "Deploy Vercel com PostgreSQL e dados do SQLite"
++git commit -m "Deploy Vercel com Supabase e dados do SQLite"
+ git branch -M main
+ git remote add origin URL_DO_SEU_REPOSITORIO
+ git push -u origin main
+ ```
+ 
+-O arquivo `db.sqlite3` está ignorado pelo Git. Os dados que irão para o PostgreSQL estão na fixture JSON, que deve ser enviada ao repositório.
++O `db.sqlite3` está ignorado pelo Git. Os dados de produção estão na fixture JSON, que deve ser enviada ao repositório.
++
++## 2. Criar o projeto no Supabase
++
++1. Acesse o Supabase e crie um projeto.
++2. Defina e guarde a senha do banco.
++3. Aguarde o banco ficar disponível.
++4. No painel do projeto, use o botão **Connect** para consultar as strings de conexão.
++
++A aplicação Django não precisa das chaves `anon`, `publishable` ou `service_role` para acessar o banco diretamente. Ela precisa apenas da URL PostgreSQL.
++
++## 3. Conectar o Supabase à Vercel — opção recomendada
+ 
+-## 2. Criar o projeto no Vercel
++No projeto da Vercel:
+ 
+-1. Importe o repositório do GitHub no Vercel.
+-2. Mantenha a raiz do projeto na pasta que contém `manage.py`.
+-3. Em **Marketplace / Storage**, adicione um PostgreSQL, como Neon.
+-4. Conecte o banco ao projeto. Confirme que a variável `DATABASE_URL` foi criada.
++1. abra **Storage** ou **Marketplace**;
++2. procure por **Supabase**;
++3. instale a integração e conecte o projeto Supabase criado;
++4. selecione os ambientes **Production**, **Preview** e, se desejar, **Development**;
++5. confirme em **Settings > Environment Variables** que existem pelo menos:
++   - `POSTGRES_URL`
++   - `POSTGRES_URL_NON_POOLING`
+ 
+-## 3. Configurar as variáveis
++A configuração desta aplicação usa automaticamente:
+ 
+-Adicione em **Settings > Environment Variables**:
++- `POSTGRES_URL` no runtime da Vercel;
++- `POSTGRES_URL_NON_POOLING` fora da Vercel, para migrações e importação.
+ 
+-- `DJANGO_SECRET_KEY`: uma chave longa e aleatória.
+-- `DJANGO_DEBUG`: `false`.
++## 4. Configurar as variáveis Django
+ 
+-A variável `DATABASE_URL` deve ser criada automaticamente pela integração PostgreSQL.
++Adicione em **Vercel > Settings > Environment Variables**:
++
++```text
++DJANGO_SECRET_KEY=uma-chave-longa-e-aleatoria
++DJANGO_DEBUG=false
++```
+ 
+ Para gerar uma chave no PowerShell:
+ 
+@@ -48,16 +72,37 @@ Para gerar uma chave no PowerShell:
+ python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+ ```
+ 
+-Caso use domínio próprio, adicione também:
++Caso use domínio próprio:
+ 
+ ```text
+ DJANGO_ALLOWED_HOSTS=seudominio.com,www.seudominio.com
+ DJANGO_CSRF_TRUSTED_ORIGINS=https://seudominio.com,https://www.seudominio.com
+ ```
+ 
+-## 4. Importar o conteúdo do SQLite para o PostgreSQL
++Depois de criar ou alterar variáveis na Vercel, faça um novo deploy.
++
++## 5. Alternativa: configurar a URL manualmente
++
++Caso não use a integração da Vercel:
++
++1. no Supabase, clique em **Connect**;
++2. escolha **Transaction pooler**;
++3. copie a URI que usa a porta `6543`;
++4. adicione essa URI na Vercel como `DATABASE_URL` para Production e Preview.
++
++Exemplo de formato:
++
++```text
++postgresql://postgres.PROJECT_REF:SENHA@aws-REGIAO.pooler.supabase.com:6543/postgres?sslmode=require
++```
++
++A aplicação detecta a porta `6543` e desativa automaticamente prepared statements e cursores vinculados à sessão, necessários para o Transaction Pooler.
++
++Nunca publique a URL real no GitHub.
++
++## 6. Importar o conteúdo do SQLite para o Supabase
+ 
+-Instale e vincule a CLI do Vercel:
++Instale a CLI e vincule o diretório ao projeto Vercel:
+ 
+ ```powershell
+ npm install -g vercel
+@@ -71,44 +116,77 @@ Baixe as variáveis de produção para o arquivo local ignorado pelo Git:
+ vercel env pull .env.local --environment=production --yes
+ ```
+ 
+-Instale as dependências e execute a preparação do banco:
++Instale as dependências:
+ 
+ ```powershell
+ python -m pip install -r requirements.txt
+-python manage.py preparar_postgres
+ ```
+ 
+-Esse comando:
++Execute a preparação do Supabase:
+ 
+-1. executa todas as migrações;
+-2. verifica se o banco está vazio;
++```powershell
++python manage.py preparar_supabase
++```
++
++O comando:
++
++1. executa as migrações do Django;
++2. verifica se as tabelas do sistema estão vazias;
+ 3. importa a fixture com os dados do SQLite;
+-4. informa as quantidades importadas.
++4. informa as quantidades importadas;
++5. cancela a operação se encontrar dados, evitando duplicações.
+ 
+-Ele cancela a importação quando encontra dados, evitando duplicações. Para substituir intencionalmente o conteúdo atual:
++Resultado esperado:
+ 
+-```powershell
+-python manage.py preparar_postgres --force
++```text
++Banco preparado com sucesso — produtos: 116, clientes: 6, cadernetas: 6, vendas: 20, movimentações: 23.
+ ```
+ 
+-O parâmetro `--force` apaga os registros atuais do sistema antes de importar a cópia do SQLite.
++### Se a conexão não agrupada falhar por IPv6
++
++A conexão direta do Supabase pode depender de IPv6. Caso `POSTGRES_URL_NON_POOLING` falhe no seu computador:
++
++1. abra **Supabase > Connect**;
++2. copie a URI de **Session pooler**, porta `5432`;
++3. coloque-a temporariamente em `.env.local` como `DATABASE_URL`;
++4. execute novamente `python manage.py preparar_supabase`.
++
++Também é possível usar temporariamente a URI do Transaction Pooler, porta `6543`.
+ 
+-## 5. Publicar em produção
++### Substituir dados existentes
+ 
+-Depois que o PostgreSQL estiver preparado:
++Somente quando quiser apagar os registros atuais e restaurar novamente a cópia do SQLite:
++
++```powershell
++python manage.py preparar_supabase --force
++```
++
++Não use `--force` depois que o sistema começar a receber dados reais.
++
++## 7. Publicar em produção
+ 
+ ```powershell
+ vercel --prod
+ ```
+ 
+-Também é possível publicar apenas fazendo push para a branch `main`, depois que o projeto estiver conectado ao GitHub.
++Ou faça push para a branch de produção conectada à Vercel.
++
++## Prioridade das variáveis de banco
++
++A aplicação aceita estas variáveis:
++
++1. `DATABASE_URL` — substituição manual com maior prioridade;
++2. `SUPABASE_DATABASE_URL` — alias manual;
++3. na Vercel: `POSTGRES_URL`, criada pela integração;
++4. localmente: `POSTGRES_URL_NON_POOLING`, criada pela integração;
++5. sem nenhuma delas, usa `db.sqlite3` apenas fora da Vercel.
+ 
+-## Desenvolvimento local
++## Desenvolvimento local somente com SQLite
+ 
+-Sem `DATABASE_URL`, o projeto usa automaticamente o arquivo `db.sqlite3`:
++Remova ou não crie `.env.local` e execute:
+ 
+ ```powershell
+ python manage.py runserver
+ ```
+ 
+-Nunca coloque a senha do PostgreSQL, a `DATABASE_URL` ou a `DJANGO_SECRET_KEY` no GitHub.
++Nunca coloque no GitHub a senha do banco, `DATABASE_URL`, `POSTGRES_URL`, `POSTGRES_URL_NON_POOLING` ou `DJANGO_SECRET_KEY`.
+diff --git a/comercio/settings.py b/comercio/settings.py
+index 751db73991a0c9a90c93130d8f5d27b7fb7a6e09..c6cf2077483dc7ab6577a161df87d1e7be25f592 100644
+--- a/comercio/settings.py
++++ b/comercio/settings.py
+@@ -1,7 +1,8 @@
+-"""Configurações do projeto SimaoFarma para desenvolvimento local e Vercel."""
++"""Configurações do SimaoFarma para SQLite local, Supabase e Vercel."""
+ 
+ import os
+ from pathlib import Path
++from urllib.parse import urlparse
+ 
+ import dj_database_url
+ from dotenv import load_dotenv
+@@ -80,24 +81,64 @@ TEMPLATES = [
+ 
+ WSGI_APPLICATION = "comercio.wsgi.application"
+ 
+-DATABASE_URL = os.getenv("DATABASE_URL")
+ 
+-if DATABASE_URL:
+-    DATABASES = {
+-        "default": dj_database_url.parse(
+-            DATABASE_URL,
+-            conn_max_age=0,
+-            conn_health_checks=True,
+-            ssl_require=IS_VERCEL,
++def get_database_url() -> tuple[str | None, str | None]:
++    """Seleciona a conexão adequada para Vercel ou tarefas locais.
++
++    DATABASE_URL e SUPABASE_DATABASE_URL funcionam como substituições explícitas.
++    Pela integração Supabase da Vercel, POSTGRES_URL é a conexão agrupada usada
++    no runtime, enquanto POSTGRES_URL_NON_POOLING é preferida localmente para
++    migrações e importações.
++    """
++    explicit_url = os.getenv("DATABASE_URL") or os.getenv("SUPABASE_DATABASE_URL")
++    if explicit_url:
++        return explicit_url, "explícita"
++
++    if IS_VERCEL:
++        candidates = (
++            ("POSTGRES_URL", os.getenv("POSTGRES_URL")),
++            ("POSTGRES_URL_NON_POOLING", os.getenv("POSTGRES_URL_NON_POOLING")),
+         )
+-    }
+-    # Compatível com conexões PostgreSQL agrupadas em ambientes serverless.
+-    DATABASES["default"]["DISABLE_SERVER_SIDE_CURSORS"] = True
++    else:
++        candidates = (
++            ("POSTGRES_URL_NON_POOLING", os.getenv("POSTGRES_URL_NON_POOLING")),
++            ("POSTGRES_URL", os.getenv("POSTGRES_URL")),
++        )
++
++    for source, value in candidates:
++        if value:
++            return value, source
++
++    return None, None
++
++
++DATABASE_URL, DATABASE_URL_SOURCE = get_database_url()
++
++if DATABASE_URL:
++    database_config = dj_database_url.parse(
++        DATABASE_URL,
++        # Functions serverless não devem manter conexões ociosas entre execuções.
++        conn_max_age=0,
++        conn_health_checks=True,
++        ssl_require=True,
++    )
++
++    parsed_database_url = urlparse(DATABASE_URL)
++    uses_transaction_pooler = parsed_database_url.port == 6543
++
++    if uses_transaction_pooler:
++        # O Transaction Pooler do Supabase não aceita prepared statements.
++        # O Psycopg 3 permite desativá-los por conexão com prepare_threshold=None.
++        database_config.setdefault("OPTIONS", {})["prepare_threshold"] = None
++
++    # Evita cursores vinculados à sessão, incompatíveis com transaction pooling.
++    database_config["DISABLE_SERVER_SIDE_CURSORS"] = True
++    DATABASES = {"default": database_config}
+ else:
+     if IS_VERCEL:
+         raise RuntimeError(
+-            "A variável DATABASE_URL não foi encontrada. Conecte um banco "
+-            "PostgreSQL ao projeto na Vercel antes de publicar."
++            "Nenhuma URL PostgreSQL foi encontrada. Conecte a integração Supabase "
++            "à Vercel ou configure DATABASE_URL/SUPABASE_DATABASE_URL."
+         )
+     DATABASES = {
+         "default": {
+diff --git a/vendas/management/commands/preparar_postgres.py b/vendas/management/commands/preparar_postgres.py
+index befd4f21eb10f95736b3b82fdf205ff60bc60e6e..c85b8c04bcc0dc53ba6a0dcbb7837264994d00fa 100644
+--- a/vendas/management/commands/preparar_postgres.py
++++ b/vendas/management/commands/preparar_postgres.py
+@@ -8,7 +8,7 @@ from vendas.models import Caderneta, Cliente, Movimentacao, Produto, Venda
+ class Command(BaseCommand):
+     help = (
+         "Executa as migrações e importa uma única vez os dados extraídos do "
+-        "db.sqlite3 para o banco configurado em DATABASE_URL."
++        "db.sqlite3 para o PostgreSQL configurado nas variáveis de ambiente."
+     )
+ 
+     def add_arguments(self, parser):
+diff --git a/vendas/management/commands/preparar_supabase.py b/vendas/management/commands/preparar_supabase.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..3f081bfb5b39b9fee2bfa6405cca637af122ee7f
+--- /dev/null
++++ b/vendas/management/commands/preparar_supabase.py
+@@ -0,0 +1,10 @@
++"""Atalho explícito para preparar o banco PostgreSQL hospedado no Supabase."""
++
++from .preparar_postgres import Command as PrepararPostgresCommand
++
++
++class Command(PrepararPostgresCommand):
++    help = (
++        "Executa as migrações e importa uma única vez os dados do db.sqlite3 "
++        "para o PostgreSQL do Supabase configurado nas variáveis de ambiente."
++    )

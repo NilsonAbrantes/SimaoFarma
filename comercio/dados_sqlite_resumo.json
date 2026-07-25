@@ -1,0 +1,12 @@
+{
+  "integrity_check": "ok",
+  "fixture_objects": 171,
+  "counts": {
+    "produtos": 116,
+    "clientes": 6,
+    "cadernetas": 6,
+    "vendas": 20,
+    "movimentacoes": 23
+  },
+  "observacao": "Os IDs, chaves estrangeiras, valores monetários e datas foram preservados na fixture vendas/fixtures/dados_sqlite.json."
+}
