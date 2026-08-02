@@ -144,7 +144,7 @@ else:
         )
     DATABASES = {
         'default': dj_database_url.config(
-            default=config('DATABASE_URL'),
+            default=os.getenv('DATABASE_URL'),
             conn_max_age=600,
             ssl_require=True
         )
@@ -177,13 +177,13 @@ STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
-            "endpoint_url": config('SUPABASE_S3_ENDPOINT'),
-            "access_key": config('SUPABASE_S3_ACCESS_KEY'),
-            "secret_key": config('SUPABASE_S3_SECRET_KEY'),
-            "bucket_name": config('SUPABASE_S3_BUCKET_NAME'),
-            "region_name": config('SUPABASE_REGION', default='sa-east-1'),
-            "default_acl": "public-read",
-        },
+        "endpoint_url": os.getenv('SUPABASE_S3_ENDPOINT'),
+        "access_key": os.getenv('SUPABASE_S3_ACCESS_KEY'),
+        "secret_key": os.getenv('SUPABASE_S3_SECRET_KEY'),
+        "bucket_name": os.getenv('SUPABASE_S3_BUCKET_NAME'),
+        "region_name": os.getenv('SUPABASE_REGION', 'sa-east-1'),
+        "default_acl": "public-read",
+    },
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
