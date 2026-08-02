@@ -34,7 +34,7 @@ def env_list(name: str) -> list[str]:
     return [item.strip() for item in os.getenv(name, "").split(",") if item.strip()]
 
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".vercel.app"]
+ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS.extend(env_list("DJANGO_ALLOWED_HOSTS"))
 
 CSRF_TRUSTED_ORIGINS = ["https://*.vercel.app"]
