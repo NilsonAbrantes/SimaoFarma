@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'storages',
+    'whitenoise.runserver_nostatic',
     "vendas",
 ]
 
@@ -141,10 +143,11 @@ else:
             "à Vercel ou configure DATABASE_URL/SUPABASE_DATABASE_URL."
         )
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL'),
+            conn_max_age=600,
+            ssl_require=True
+        )
     }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -172,7 +175,15 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "endpoint_url": config('SUPABASE_S3_ENDPOINT'),
+            "access_key": config('SUPABASE_S3_ACCESS_KEY'),
+            "secret_key": config('SUPABASE_S3_SECRET_KEY'),
+            "bucket_name": config('SUPABASE_S3_BUCKET_NAME'),
+            "region_name": config('SUPABASE_REGION', default='sa-east-1'),
+            "default_acl": "public-read",
+        },
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",

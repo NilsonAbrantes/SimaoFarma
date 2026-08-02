@@ -32,3 +32,5 @@ config/settings.py
 
 # Banco de Dados SQLite
 db.sqlite3
+.vercel
+.env*
