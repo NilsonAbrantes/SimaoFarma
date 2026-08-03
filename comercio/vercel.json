@@ -1,12 +1,13 @@
 {
   "version": 2,
+  "outputDirectory": "comercio/staticfiles",
   "builds": [
     {
       "src": "comercio/wsgi.py",
       "use": "@vercel/python",
       "config": {
         "maxLambdaSize": "15mb",
-        "runtime": "python3.9" 
+        "runtime": "python3.12" 
       }
     },
     {
