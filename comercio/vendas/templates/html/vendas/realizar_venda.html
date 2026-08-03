@@ -14,7 +14,7 @@
 
   <!-- Biblioteca para leitura de QR Code e Código de Barras via Câmera -->
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-  
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link rel="stylesheet" href="{% static 'vendas/css/theme.css' %}">
 </head>
@@ -42,11 +42,15 @@
         <!-- Container onde a câmera do celular vai aparecer -->
         <div id="reader" style="width: 100%; max-width: 400px; display: none; margin-top: 15px;"></div>
 
-        <!-- Campo do código de barras (onde o sistema busca o produto) -->
-        <form method="GET" action=""> <!-- Ou o seu formulário de busca/adicionar produto -->
+        <button type="button" class="btn btn-ghost" id="btn-parar-scan" style="display:none; margin-top: 8px;" onclick="pararScanner()">
+            Parar Câmera
+        </button>
+
+        <!-- Campo do código de barras -->
+        <div class="field-group">
             <label for="codigo_barras">Código de Barras:</label>
             <input type="text" id="codigo_barras" name="codigo_barras" class="form-control" placeholder="Escaneie ou digite...">
-        </form>
+        </div>
 
         <!-- SELECT COM BUSCA -->
         <div class="field-group">
@@ -57,6 +61,7 @@
               <option
                 value="{{ produto.id }}"
                 data-preco="{{ produto.preco|unlocalize }}"
+                data-codigo="{{ produto.codigo_barras|default_if_none:'' }}"
               >
                 {{ produto.nome }} {% if produto.codigo_barras %}({{ produto.codigo_barras }}){% endif %}
               </option>
@@ -142,6 +147,7 @@
     adicionarAoCarrinho(produtoId, produtoNome, produtoPreco, quantidade);
 
     $('#produto_select').val(null).trigger('change');
+    $('#codigo_barras').val('');
     $('#id_quantidade').val(1);
   });
 
@@ -238,56 +244,68 @@
 
   renderizarCarrinho();
 
+  // ---------- Scanner de código de barras ----------
+
   let html5QrCodeMethod = null;
 
   function iniciarScanner() {
       const readerDiv = document.getElementById("reader");
-      readerDiv.style.display = "block"; // Mostra a caixa da câmera na tela
+      readerDiv.style.display = "block";
+      document.getElementById("btn-parar-scan").style.display = "inline-block";
 
       html5QrCodeMethod = new Html5Qrcode("reader");
 
-      const config = { 
-          fps: 10, 
-          qrbox: { width: 250, height: 150 }, // Formato retangular ideal para código de barras
-          aspectRatio: 1.0 
+      const config = {
+          fps: 10,
+          qrbox: { width: 280, height: 120 } // retângulo, melhor para código de barras
       };
 
-      // Inicia usando a câmera traseira do celular ('environment')
       html5QrCodeMethod.start(
-          { facingMode: "environment" }, 
-          config, 
-          onScanSuccess, 
+          { facingMode: "environment" },
+          config,
+          onScanSuccess,
           onScanFailure
       ).catch(err => {
           console.error("Erro ao iniciar a câmera:", err);
-          alert("Não foi possível acessar a câmera do celular. Verifique as permissões.");
+          alert("Não foi possível acessar a câmera. Verifique as permissões e se a página está em HTTPS.");
+          readerDiv.style.display = "none";
+          document.getElementById("btn-parar-scan").style.display = "none";
       });
   }
 
-  function onScanSuccess(decodedText, decodedResult) {
-      // 1. Insere o código lido no input de código de barras
-      const inputCodigo = document.getElementById("codigo_barras");
-      inputCodigo.value = decodedText;
-
-      // 2. Para a câmera após a leitura bem-sucedida
+  function pararScanner() {
       if (html5QrCodeMethod) {
           html5QrCodeMethod.stop().then(() => {
               document.getElementById("reader").style.display = "none";
+              document.getElementById("btn-parar-scan").style.display = "none";
           }).catch(err => console.error("Erro ao parar o leitor:", err));
       }
+  }
 
-      // 3. Opcional: Disparar a busca automática do produto no sistema
-      // Se você usa AJAX/Fetch para buscar o produto sem recarregar a página:
+  function onScanSuccess(decodedText, decodedResult) {
+      const inputCodigo = document.getElementById("codigo_barras");
+      inputCodigo.value = decodedText;
+
+      pararScanner();
       buscarProdutoNoBanco(decodedText);
-      
-      // Ou, se o formulário envia a página para o backend:
-      // inputCodigo.form.submit();
   }
 
   function onScanFailure(error) {
-      // Erros de leitura quadro a quadro são normais enquanto o código não estiver enquadrado, 
-      // por isso podemos ignorar o log excessivo aqui.
+      // Erros de leitura quadro a quadro são normais enquanto o código não estiver
+      // enquadrado, por isso ignoramos o log aqui.
   }
-</script>
+
+  function buscarProdutoNoBanco(codigo) {
+      const select = $('#produto_select');
+      const option = select.find(`option[data-codigo="${codigo}"]`);
+
+      if (option.length) {
+          select.val(option.val()).trigger('change');
+          document.getElementById('id_quantidade').focus();
+      } else {
+          alert('Produto com código "' + codigo + '" não encontrado.');
+      }
+  }
+  </script>
 </body>
 </html>
