@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "outputDirectory": "comercio/staticfiles",
   "builds": [
     {
       "src": "comercio/wsgi.py",
@@ -12,7 +11,10 @@
     },
     {
       "src": "build.sh",
-      "use": "@vercel/static-build"
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "comercio/staticfiles"
+      }
     }
   ],
   "routes": [
