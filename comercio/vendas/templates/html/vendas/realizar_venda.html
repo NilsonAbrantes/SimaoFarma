@@ -273,14 +273,13 @@
       html5QrCodeMethod.start(
           {
               facingMode: "environment",
-              advanced: [{ focusMode: "continuous" }]
           },
           config,
           onScanSuccess,
           onScanFailure
       ).catch(err => {
           console.error("Erro ao iniciar a câmera:", err);
-          alert("Não foi possível acessar a câmera. Verifique as permissões e se a página está em HTTPS.");
+          alert("Não foi possível acessar a câmera.\nTipo: " + (err.name || err) + "\nDetalhe: " + (err.message || err));
           readerDiv.style.display = "none";
           document.getElementById("btn-parar-scan").style.display = "none";
       });
