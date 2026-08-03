@@ -13,14 +13,14 @@
       "src": "build.sh",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "comercio/staticfiles"
+        "distDir": "staticfiles"
       }
     }
   ],
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "dest": "/$1"
     },
     {
       "src": "/(.*)",
