@@ -257,11 +257,24 @@
 
       const config = {
           fps: 10,
-          qrbox: { width: 280, height: 120 } // retângulo, melhor para código de barras
+          qrbox: { width: 280, height: 120 },
+          formatsToSupport: [
+              Html5QrcodeSupportedFormats.EAN_13,
+              Html5QrcodeSupportedFormats.EAN_8,
+              Html5QrcodeSupportedFormats.UPC_A,
+              Html5QrcodeSupportedFormats.UPC_E,
+              Html5QrcodeSupportedFormats.CODE_128,
+              Html5QrcodeSupportedFormats.CODE_39,
+              Html5QrcodeSupportedFormats.CODABAR,
+              Html5QrcodeSupportedFormats.ITF
+          ]
       };
 
       html5QrCodeMethod.start(
-          { facingMode: "environment" },
+          {
+              facingMode: "environment",
+              advanced: [{ focusMode: "continuous" }]
+          },
           config,
           onScanSuccess,
           onScanFailure
@@ -296,15 +309,35 @@
   }
 
   function buscarProdutoNoBanco(codigo) {
-      const select = $('#produto_select');
-      const option = select.find(`option[data-codigo="${codigo}"]`);
+      $.ajax({
+          url: '{% url "buscar_produto" %}',
+          type: 'POST',
+          data: {
+              csrfmiddlewaretoken: '{{ csrf_token }}',
+              pesquisa_produto: codigo
+          },
+          success: function (resp) {
+              if (resp.produto) {
+                  const select = $('#produto_select');
+                  const produto = resp.produto;
 
-      if (option.length) {
-          select.val(option.val()).trigger('change');
-          document.getElementById('id_quantidade').focus();
-      } else {
-          alert('Produto com código "' + codigo + '" não encontrado.');
-      }
+                  // Garante que a option exista no select2 (caso não esteja na lista renderizada)
+                  if (!select.find(`option[value="${produto.id}"]`).length) {
+                      const opt = new Option(produto.nome, produto.id, true, true);
+                      $(opt).attr('data-preco', produto.preco);
+                       select.append(opt);
+                   }
+
+                  select.val(produto.id).trigger('change');
+                  document.getElementById('id_quantidade').focus();
+              } else {
+                  alert('Produto com código "' + codigo + '" não encontrado.');
+              }
+          },
+          error: function () {
+              alert('Erro ao buscar produto.');
+          }
+      });
   }
   </script>
 </body>
